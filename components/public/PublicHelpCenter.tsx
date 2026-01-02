@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Search, MessageCircle, BookOpen, PlayCircle, ChevronDown, Lightbulb, Info, Wallet, Folder, Globe, Layout, CreditCard, LifeBuoy } from 'lucide-react';
+import { Search, ChevronDown, LifeBuoy, PlayCircle, Wallet, Info, MessageCircle } from 'lucide-react';
 import { ViewState } from '../../types';
 
 interface PublicHelpCenterProps {
@@ -44,7 +44,6 @@ const PublicHelpCenter: React.FC<PublicHelpCenterProps> = ({ onNavigate }) => {
     <div className="pt-32 pb-24 bg-white overflow-hidden" dir="rtl">
       <div className="container mx-auto px-4 md:px-8 max-w-5xl">
         
-        {/* Hero */}
         <div className="text-center mb-16">
             <motion.div 
                 initial={{ opacity: 0, scale: 0.9 }}
@@ -53,21 +52,20 @@ const PublicHelpCenter: React.FC<PublicHelpCenterProps> = ({ onNavigate }) => {
             >
                 <LifeBuoy size={16} fill="currentColor" /> الدعم والمساعدة
             </motion.div>
-            <h1 className="text-5xl md:text-7xl font-black text-black mb-8 font-heading leading-tight">كيف يمكننا <span className="text-[#7C3AED]">مساعدتك؟</span></h1>
+            <h1 className="text-4xl md:text-7xl font-black text-black mb-8 font-heading leading-tight">كيف يمكننا <span className="text-[#7C3AED]">مساعدتك؟</span></h1>
             
             <div className="relative max-w-2xl mx-auto">
                 <input 
                     type="text" 
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="ابحث عن سؤالك (مثلاً: الدفع، الدومين، التعديلات)..." 
-                    className="w-full pl-6 pr-14 py-5 rounded-2xl bg-white border-[3px] border-black text-xl font-bold focus:shadow-neo transition-all outline-none"
+                    placeholder="ابحث عن سؤالك (مثلاً: الدفع، الدومين)..." 
+                    className="w-full pl-6 pr-14 py-4 md:py-5 rounded-2xl bg-white border-[3px] border-black text-lg md:text-xl font-bold focus:shadow-neo transition-all outline-none"
                 />
-                <Search className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400" size={28} />
+                <Search className="absolute right-5 top-1/2 -translate-y-1/2 text-slate-400" size={24} />
             </div>
         </div>
 
-        {/* Categories Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-24">
             {[
                 { title: 'دليل البداية', desc: 'تعلم كيف تبني موقعك الأول', icon: PlayCircle, color: 'bg-yellow-300' },
@@ -84,7 +82,6 @@ const PublicHelpCenter: React.FC<PublicHelpCenterProps> = ({ onNavigate }) => {
             ))}
         </div>
 
-        {/* FAQs */}
         <div className="mb-24">
             <h2 className="text-3xl font-black text-black mb-10 border-r-8 border-[#7C3AED] pr-4">الأسئلة الشائعة</h2>
             <div className="space-y-4">
@@ -92,7 +89,7 @@ const PublicHelpCenter: React.FC<PublicHelpCenterProps> = ({ onNavigate }) => {
                     <div key={faq.id} className="bg-slate-50 border-[3px] border-black rounded-xl overflow-hidden">
                         <button 
                             onClick={() => setExpandedFaq(expandedFaq === faq.id ? null : faq.id)}
-                            className="w-full flex items-center justify-between p-6 text-right font-black text-xl hover:bg-violet-50 transition-colors"
+                            className="w-full flex items-center justify-between p-6 text-right font-black text-lg md:text-xl hover:bg-violet-50 transition-colors"
                         >
                             <span>{faq.question}</span>
                             <ChevronDown className={`transition-transform duration-300 ${expandedFaq === faq.id ? 'rotate-180' : ''}`} />
@@ -105,7 +102,7 @@ const PublicHelpCenter: React.FC<PublicHelpCenterProps> = ({ onNavigate }) => {
                                     exit={{ height: 0 }}
                                     className="overflow-hidden bg-white"
                                 >
-                                    <div className="p-6 text-lg text-slate-600 font-bold leading-relaxed border-t-2 border-slate-100">
+                                    <div className="p-6 text-base md:text-lg text-slate-600 font-bold leading-relaxed border-t-2 border-slate-100">
                                         {faq.answer}
                                     </div>
                                 </motion.div>
@@ -116,19 +113,18 @@ const PublicHelpCenter: React.FC<PublicHelpCenterProps> = ({ onNavigate }) => {
             </div>
         </div>
 
-        {/* Contact CTA */}
-        <div className="bg-black text-white rounded-3xl p-10 md:p-16 text-center relative overflow-hidden border-[4px] border-black shadow-neo-lg">
-            <div className="absolute inset-0 opacity-10 bg-[url('https://www.transparenttextures.com/patterns/cubes.png')]"></div>
+        <div className="bg-black text-white rounded-3xl p-8 md:p-16 text-center relative overflow-hidden border-[4px] border-black shadow-neo-lg">
             <div className="relative z-10">
-                <h3 className="text-3xl md:text-5xl font-black mb-6">لم تجد إجابة؟</h3>
-                <p className="text-xl text-slate-400 font-bold mb-10 max-w-2xl mx-auto">فريقنا متاح دائماً للمساعدة عبر الواتساب أو البريد الإلكتروني.</p>
-                <div className="flex flex-col sm:flex-row justify-center gap-6">
-                    <button 
-                        onClick={() => onNavigate('contact')}
+                <h3 className="text-2xl md:text-5xl font-black mb-6">لم تجد إجابة؟</h3>
+                <p className="text-lg text-slate-400 font-bold mb-10 max-w-2xl mx-auto">فريقنا متاح دائماً للمساعدة عبر الواتساب أو البريد الإلكتروني.</p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <a 
+                        href="https://wa.me/96598765432" 
+                        target="_blank"
                         className="bg-green-500 text-black px-10 py-4 rounded-xl font-black text-xl border-2 border-white shadow-[4px_4px_0px_0px_#ffffff] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all flex items-center justify-center gap-3"
                     >
                         <MessageCircle size={24} /> واتساب الدعم
-                    </button>
+                    </a>
                     <button 
                         onClick={() => onNavigate('contact')}
                         className="bg-white text-black px-10 py-4 rounded-xl font-black text-xl border-2 border-black shadow-[4px_4px_0px_0px_#7C3AED] hover:shadow-none hover:translate-x-1 hover:translate-y-1 transition-all"
@@ -138,7 +134,6 @@ const PublicHelpCenter: React.FC<PublicHelpCenterProps> = ({ onNavigate }) => {
                 </div>
             </div>
         </div>
-
       </div>
     </div>
   );

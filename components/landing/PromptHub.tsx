@@ -14,7 +14,7 @@ const PromptHub: React.FC<PromptHubProps> = ({ onNavigate }) => {
     e.preventDefault();
     if (!userPrompt.trim()) return;
     
-    // Save prompt to use after signup
+    // Save prompt to use after signup/login
     localStorage.setItem('pending_website_prompt', userPrompt);
     onNavigate('signup');
   };
@@ -27,7 +27,7 @@ const PromptHub: React.FC<PromptHubProps> = ({ onNavigate }) => {
   ];
 
   return (
-    <section className="bg-white py-12 md:py-20 overflow-hidden px-4">
+    <section className="bg-white py-12 md:py-20 overflow-hidden px-4" id="builder-start">
       <motion.div 
           initial={{ opacity: 0, y: 40 }}
           whileInView={{ opacity: 1, y: 0 }}
