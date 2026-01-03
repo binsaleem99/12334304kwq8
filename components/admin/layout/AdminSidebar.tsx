@@ -1,5 +1,5 @@
 import React from 'react';
-import { LayoutDashboard, Users, Folder, LayoutTemplate, CreditCard, BarChart3, FileText, Settings, Server, Link, AlertTriangle } from 'lucide-react';
+import { LayoutDashboard, Users, Folder, LayoutTemplate, CreditCard, BarChart3, FileText, Settings, Server, Link, AlertTriangle, UserPlus, Package, Activity } from 'lucide-react';
 import { ViewState } from '../../../types';
 
 interface AdminSidebarProps {
@@ -29,12 +29,15 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ currentView, onNavigate }) 
         title: 'Business',
         items: [
           { id: 'billing', label: 'Billing', icon: CreditCard, view: 'admin-billing' },
+          { id: 'packages', label: 'Packages', icon: Package, view: 'admin-packages' },
           { id: 'analytics', label: 'Analytics', icon: BarChart3, view: 'admin-analytics' },
+          { id: 'affiliates', label: 'Affiliates', icon: UserPlus, view: 'admin-affiliates' },
         ]
     },
     {
         title: 'System',
         items: [
+          { id: 'health', label: 'System Health', icon: Activity, view: 'admin-system' },
           { id: 'logs', label: 'System Logs', icon: Server, view: 'admin-logs' },
           { id: 'referrals', label: 'Referrals', icon: Link, view: 'admin-referrals' },
           { id: 'settings', label: 'Settings', icon: Settings, view: 'admin-settings' },
@@ -56,7 +59,7 @@ const AdminSidebar: React.FC<AdminSidebarProps> = ({ currentView, onNavigate }) 
                         <li key={item.id}>
                             <button
                                 onClick={() => onNavigate(item.view as ViewState)}
-                                className={`w-full flex items-center gap-3 px-6 py-3 text-sm font-bold transition-all ${
+                                className={`w-full text-left flex items-center gap-3 px-6 py-3 text-sm font-bold transition-all ${
                                     isActive 
                                     ? 'bg-[#1A1A1A] text-[#7C3AED] border-l-[3px] border-[#7C3AED]' 
                                     : 'text-[#A0A0A0] hover:bg-[#1A1A1A] hover:text-white border-l-[3px] border-transparent'

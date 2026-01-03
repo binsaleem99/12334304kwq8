@@ -1,18 +1,22 @@
 import React from 'react';
 import { ChevronRight, Download, Rocket, Share2, Menu } from 'lucide-react';
 import { ViewState } from '../../types';
-import Button from '../ui/Button';
+// Standardized casing for button import
+import Button from '../ui/button.tsx';
 
 interface BuilderNavbarProps {
   onNavigate: (view: ViewState) => void;
   projectName?: string;
 }
 
+/**
+ * Navbar component for the AI Website Builder interface.
+ */
 const BuilderNavbar: React.FC<BuilderNavbarProps> = ({ onNavigate, projectName = "موقع المطعم البحري" }) => {
   return (
     <nav className="h-16 bg-white border-b-[3px] border-black flex items-center justify-between px-4 lg:px-6 fixed top-0 left-0 right-0 z-50">
       
-      {/* Right: Brand & Back (RTL: Starts here) */}
+      {/* Right: Brand & Back */}
       <div className="flex items-center gap-4">
         <button 
             onClick={() => onNavigate('dashboard')}
@@ -30,38 +34,38 @@ const BuilderNavbar: React.FC<BuilderNavbarProps> = ({ onNavigate, projectName =
         </div>
       </div>
 
-      {/* Left: Actions (RTL: Ends here) */}
+      {/* Left: Actions */}
       <div className="flex items-center gap-3">
         <Button 
             variant="ghost" 
             size="sm"
             className="hidden md:flex items-center gap-2 text-slate-600 hover:text-black"
         >
-            <Share2 size={18} /> <span className="text-sm">مشاركة</span>
+            <Share2 size={18} />
+            <span className="hidden lg:inline">مشاركة</span>
         </Button>
-        
         <Button 
             variant="secondary" 
             size="sm"
-            className="hidden md:flex items-center gap-2"
+            onClick={() => onNavigate('dashboard-preview')}
+            className="flex items-center gap-2"
         >
-            <Download size={18} /> <span className="text-sm">تصدير</span>
+            <Eye size={18} />
+            <span className="hidden lg:inline">معاينة</span>
         </Button>
-
         <Button 
-            variant="primary" 
+            variant="default" 
             size="sm"
-            className="flex items-center gap-2 px-6"
+            onClick={() => onNavigate('dashboard-publish')}
+            className="flex items-center gap-2"
         >
-            <Rocket size={18} /> <span className="text-sm">نشر</span>
+            <Rocket size={18} />
+            <span>نشر الموقع</span>
         </Button>
-        
-        <button className="md:hidden p-2 text-black">
-            <Menu size={24} />
-        </button>
       </div>
     </nav>
   );
 };
 
 export default BuilderNavbar;
+import { Eye } from 'lucide-react';

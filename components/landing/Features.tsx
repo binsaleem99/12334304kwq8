@@ -1,148 +1,144 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { MessageSquare, LayoutTemplate, Zap, CreditCard, MessageCircle, BarChart3, Sparkles } from 'lucide-react';
+"use client";
 
-const FeatureCard = ({ title, description, icon: Icon, accent, size = 'md', children }: any) => {
-  const accentColors: any = {
-    violet: 'bg-violet-200',
-    pink: 'bg-pink-200',
-    orange: 'bg-orange-200',
-    cyan: 'bg-cyan-200',
-    green: 'bg-green-200',
-    yellow: 'bg-yellow-200',
-  };
+import * as React from "react";
+import { motion } from "framer-motion";
+import { 
+  Brain, Layout, Rocket, Settings, CreditCard, 
+  MessageSquare, Globe, Palette 
+} from "lucide-react";
+import { GradientText } from "../ui/index.ts";
 
-  const colSpan = size === 'lg' ? 'md:col-span-2' : size === 'md' ? 'md:col-span-1' : 'col-span-1';
-  const rowSpan = size === 'lg' ? 'md:row-span-2' : '';
+const features = [
+  {
+    icon: Brain,
+    title: "بناء بالذكاء الاصطناعي",
+    description: "اكتب ما تريد بالعربية والذكاء الاصطناعي يبني لك موقعك كاملاً",
+    color: "bg-brand-violet",
+  },
+  {
+    icon: Layout,
+    title: "قوالب عربية جاهزة",
+    description: "قوالب مصممة خصيصًا للسوق الخليجي وتدعم اللغة العربية بالكامل",
+    color: "bg-brand-pink",
+  },
+  {
+    icon: Rocket,
+    title: "نشر بنقرة واحدة",
+    description: "انشر موقعك مباشرة على الإنترنت مع نطاق فرعي مجاني",
+    color: "bg-brand-orange",
+  },
+  {
+    icon: Settings,
+    title: "لوحة تحكم تلقائية",
+    description: "لوحة إدارة جاهزة لكل مشروع تبنيه لإدارة المحتوى بسهولة",
+    color: "bg-brand-cyan",
+  },
+  {
+    icon: CreditCard,
+    title: "دفع إلكتروني خليجي",
+    description: "تكامل مع بوابات الدفع المحلية مثل KNET وبطاقات الائتمان",
+    color: "bg-brand-lime",
+  },
+  {
+    icon: MessageSquare,
+    title: "واتساب مدمج",
+    description: "زر واتساب تفاعلي لتواصل عملائك معك مباشرة",
+    color: "bg-brand-gold",
+  },
+  {
+    icon: Globe,
+    title: "متجاوب مع الجوال",
+    description: "كل موقع تبنيه يعمل بشكل مثالي على الجوال والتابلت",
+    color: "bg-brand-violet",
+  },
+  {
+    icon: Palette,
+    title: "تحرير مرئي",
+    description: "عدّل موقعك بالسحب والإفلات أو بالأوامر النصية",
+    color: "bg-brand-pink",
+  },
+];
 
-  return (
-    <motion.div
-      variants={{
-        rest: { y: 0, x: 0, boxShadow: "4px 4px 0px 0px #000" },
-        hover: { y: 2, x: 2, boxShadow: "0px 0px 0px 0px #000", transition: { type: "tween", duration: 0.1 } }
-      }}
-      initial="rest"
-      whileHover="hover"
-      className={`${colSpan} ${rowSpan} bg-white rounded-2xl p-6 md:p-8 border-2 border-black transition-all group relative overflow-hidden`}
-    >
-      <div className={`w-14 h-14 rounded-xl flex items-center justify-center mb-4 border-2 border-black shadow-[2px_2px_0px_0px_#000] ${accentColors[accent]}`}>
-        <Icon className="w-7 h-7 text-black stroke-[2.5px]" />
-      </div>
-      <h3 className="text-2xl font-black text-black mb-3">{title}</h3>
-      <p className="text-slate-700 font-medium mb-6 leading-relaxed">{description}</p>
-      {children}
-    </motion.div>
-  );
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+    },
+  },
 };
 
-const Features = () => {
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 },
+};
+
+export function Features() {
   return (
-    <section id="features" className="py-20 bg-white">
-      <div className="container mx-auto px-4 md:px-8">
+    <section id="features" className="py-24 bg-surface-secondary">
+      <div className="container mx-auto px-4">
+        {/* Section Header */}
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-1 rounded-lg bg-white border-2 border-black shadow-[3px_3px_0px_0px_#000] text-black text-sm font-bold mb-6">
-            <Sparkles size={16} fill="currentColor" className="text-yellow-400" />
-            القدرات
-          </div>
-          <h2 className="text-4xl md:text-6xl font-black text-black mb-6 font-heading">
-            كل ما تحتاجه <br/>
-            <span className="relative inline-block mt-2">
-                <span className="absolute inset-0 bg-yellow-300 transform rotate-1 rounded-lg -z-10 border-2 border-black"></span>
-                <span className="relative z-10 px-2">لبناء موقعك</span>
-            </span>
-          </h2>
-          <p className="text-xl text-slate-800 font-medium max-w-2xl mx-auto">أدوات قوية بواجهة بسيطة، صُممت خصيصاً للمنطقة.</p>
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-block text-brand-violet font-bold mb-4"
+          >
+            المميزات
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-5xl font-bold mb-4"
+          >
+            كل ما تحتاجه لبناء
+            <br />
+            <GradientText>موقع احترافي</GradientText>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-content-secondary text-lg max-w-2xl mx-auto"
+          >
+            من الفكرة إلى النشر، بدون أي خبرة تقنية
+          </motion.p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {/* Large Card */}
-          <FeatureCard
-            title="بناء بالمحادثة"
-            description="اكتب ما تريد بالعربية والذكاء الاصطناعي يفهمك ويبني لك."
-            icon={MessageSquare}
-            accent="violet"
-            size="lg"
-          >
-            <div className="bg-slate-50 rounded-xl p-4 mt-auto border-2 border-black relative overflow-hidden">
-                <div className="flex flex-col gap-3">
-                    <div className="self-end bg-black text-white px-4 py-3 rounded-xl rounded-tr-none text-sm font-bold border-2 border-black max-w-[80%]">
-                        أريد متجراً للعطور الشرقية بتصميم فخم
-                    </div>
-                    <div className="self-start bg-white border-2 border-black text-black px-4 py-3 rounded-xl rounded-tl-none text-sm font-bold max-w-[80%] shadow-[2px_2px_0px_0px_rgba(0,0,0,0.1)]">
-                        <span className="flex gap-1">
-                            <span className="w-2 h-2 bg-black rounded-full animate-bounce"></span>
-                            <span className="w-2 h-2 bg-black rounded-full animate-bounce delay-75"></span>
-                            <span className="w-2 h-2 bg-black rounded-full animate-bounce delay-150"></span>
-                        </span>
-                    </div>
+        {/* Features Grid */}
+        <motion.div
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
+        >
+          {features.map((feature, index) => (
+            <motion.div
+              key={index}
+              variants={itemVariants}
+              className="group"
+            >
+              <div className="h-full bg-white border-3 border-black shadow-brutal p-6 transition-all duration-300 hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none">
+                {/* Icon */}
+                <div className={`inline-flex p-3 ${feature.color} text-white border-3 border-black mb-4`}>
+                  <feature.icon className="h-6 w-6" />
                 </div>
-            </div>
-          </FeatureCard>
-
-          {/* Medium Cards */}
-          <FeatureCard
-            title="قوالب خليجية"
-            description="+15 قالب مصمم للسوق العربي والذوق المحلي."
-            icon={LayoutTemplate}
-            accent="pink"
-            size="md"
-          >
-             <div className="flex items-center justify-center gap-2 mt-4 opacity-100 transition-opacity">
-                <div className="w-16 h-20 bg-pink-100 border-2 border-black rounded rotate-[-6deg]"></div>
-                <div className="w-16 h-20 bg-white border-2 border-black rounded z-10 -mt-2 shadow-[2px_2px_0px_0px_#000]"></div>
-                <div className="w-16 h-20 bg-pink-100 border-2 border-black rounded rotate-[6deg]"></div>
-             </div>
-          </FeatureCard>
-
-          <FeatureCard
-            title="نشر فوري"
-            description="من الفكرة للإنترنت في دقائق مع استضافة سريعة."
-            icon={Zap}
-            accent="orange"
-            size="md"
-          >
-             <div className="mt-6">
-                 <div className="w-full bg-white border-2 border-black rounded-full h-4 mb-2 overflow-hidden p-0.5">
-                     <div className="bg-orange-400 h-full rounded-full w-[80%] border-r-2 border-black"></div>
-                 </div>
-                 <div className="text-right text-xs text-black font-black">تم النشر! ✓</div>
-             </div>
-          </FeatureCard>
-
-          {/* Small Cards */}
-          <FeatureCard
-            title="دفع خليجي"
-            description="KNET • Visa • Mastercard"
-            icon={CreditCard}
-            accent="cyan"
-            size="md"
-          />
-
-          <FeatureCard
-            title="دعم واتساب"
-            description="تواصل مباشر مع عملائك عبر الواتساب."
-            icon={MessageCircle}
-            accent="green"
-            size="md"
-          />
-
-          <FeatureCard
-            title="لوحة تحكم ذكية"
-            description="تحكم كامل في موقعك ومبيعاتك."
-            icon={BarChart3}
-            accent="yellow"
-            size="md"
-          />
-        </div>
-        
-        <div className="text-center mt-16">
-            <a href="#features-all" className="inline-block px-8 py-4 bg-white text-black font-black text-lg border-2 border-black shadow-[4px_4px_0px_0px_#000] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_#000] transition-all rounded-xl">
-                استكشف كل الميزات ←
-            </a>
-        </div>
+                {/* Content */}
+                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
+                <p className="text-content-secondary">{feature.description}</p>
+              </div>
+            </motion.div>
+          ))}
+        </motion.div>
       </div>
     </section>
   );
-};
+}
 
 export default Features;

@@ -1,106 +1,213 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Sparkles, Send } from 'lucide-react';
-import { ViewState } from '../../types';
+"use client";
+
+import * as React from "react";
+import { motion } from "framer-motion";
+import { 
+  ArrowLeft, Scissors, UtensilsCrossed, ShoppingBag, 
+  Briefcase, Camera, Stethoscope, Sparkles 
+} from "lucide-react";
+// Standardized casing for button import
+import Button from "../ui/button.tsx";
+// Fixed casing: Standardized to lowercase to match canonical root file casing
+import GradientText from "../ui/gradient-text.tsx";
+import { cn } from "../../lib/utils/cn.ts";
+import { ViewState } from "../../types.ts";
 
 interface PromptHubProps {
   onNavigate: (view: ViewState) => void;
 }
 
-const PromptHub: React.FC<PromptHubProps> = ({ onNavigate }) => {
-  const [userPrompt, setUserPrompt] = useState('');
+const useCases = [
+  {
+    icon: Scissors,
+    title: "صالونات التجميل",
+    prompt: "أريد موقع لصالون تجميل نسائي فاخر في الكويت مع نظام حجز مواعيد وكتالوج خدمات",
+    color: "bg-brand-pink",
+    activeColor: "bg-brand-pink",
+  },
+  {
+    icon: UtensilsCrossed,
+    title: "المطاعم والكافيهات",
+    prompt: "أريد موقع لمطعم مأكولات بحرية كويتي يعرض قائمة الطعام اليومية وموقعنا في سوق شرق",
+    color: "bg-brand-orange",
+    activeColor: "bg-brand-orange",
+  },
+  {
+    icon: ShoppingBag,
+    title: "المتاجر الإلكترونية",
+    prompt: "أريد متجر إلكتروني لبيع العطور الشرقية مع بوابة دفع KNET وسلة تسوق ذكية",
+    color: "bg-brand-violet",
+    activeColor: "bg-brand-violet",
+  },
+  {
+    icon: Briefcase,
+    title: "الشركات والأعمال",
+    prompt: "أريد موقع تعريفي لشركة عقارات في دبي يعرض المشاريع المتاحة ونماذج التواصل",
+    color: "bg-brand-cyan",
+    activeColor: "bg-brand-cyan",
+  },
+  {
+    icon: ShoppingBag,
+    title: "المصورين والمبدعين",
+    prompt: "أريد بورتفوليو لعرض أعمالي في تصوير المناسبات والبورتريه بأسلوب عصري وبسيط",
+    color: "bg-brand-gold",
+    activeColor: "bg-brand-gold",
+  },
+  {
+    icon: Stethoscope,
+    title: "العيادات الطبية",
+    prompt: "أريد موقع لعيادة أسنان تخصصية يتيح للمرضى معرفة الطاقم الطبي وحجز المواعيد أونلاين",
+    color: "bg-brand-lime",
+    activeColor: "bg-brand-lime",
+  },
+];
 
-  const handleStartBuilding = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!userPrompt.trim()) return;
-    
-    // Save prompt to use after signup/login
-    localStorage.setItem('pending_website_prompt', userPrompt);
+export function PromptHub({ onNavigate }: PromptHubProps) {
+  const [selectedPrompt, setSelectedPrompt] = React.useState(useCases[0].prompt);
+
+  const handleStartBuilding = () => {
+    // Save prompt to session storage to persist across auth flow
+    sessionStorage.setItem('pending_website_prompt', selectedPrompt);
     onNavigate('signup');
   };
 
-  const suggestions = [
-    { label: '🍔 مطعم برجر', prompt: 'موقع لمطعم برجر عصري بستايل شبابي' },
-    { label: '💇 صالون تجميل', prompt: 'موقع لصالون تجميل نسائي فاخر باللون الوردي والذهبي' },
-    { label: '📦 متجر عطور', prompt: 'متجر إلكتروني لبيع العطور الشرقية بتصميم ملكي' },
-    { label: '🏛️ شركة مقاولات', prompt: 'موقع تعريفي لشركة مقاولات هندسية' }
-  ];
-
   return (
-    <section className="bg-white py-12 md:py-20 overflow-hidden px-4" id="builder-start">
-      <motion.div 
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          className="max-w-5xl mx-auto"
-      >
-          <div className="bg-white border-[3px] border-black rounded-[24px] md:rounded-[40px] p-5 md:p-12 shadow-neo-lg relative overflow-hidden group">
-              {/* Visual Flair Decor */}
-              <div className="absolute -top-10 -left-10 w-40 h-40 bg-violet-100 rounded-full blur-3xl opacity-40 group-hover:bg-violet-200 transition-all duration-500"></div>
-              <div className="absolute -bottom-10 -right-10 w-40 h-40 bg-yellow-50 rounded-full blur-3xl opacity-40 group-hover:bg-yellow-100 transition-all duration-500"></div>
+    <section id="use-cases" className="py-24 bg-white relative overflow-hidden">
+      {/* Abstract Background Shapes */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-brand-violet/5 rounded-full blur-3xl -mr-48 -mt-48"></div>
+      
+      <div className="container mx-auto px-4 relative z-10">
+        {/* Header */}
+        <div className="text-center mb-16">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-brand-violet/10 text-brand-violet font-black text-sm mb-4 border-2 border-brand-violet/20"
+          >
+            <Sparkles size={16} fill="currentColor" /> أفكار وإلهام
+          </motion.span>
+          <motion.h2
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.1 }}
+            className="text-3xl md:text-5xl lg:text-6xl font-black text-black mb-6 leading-tight"
+          >
+            ماذا تريد أن
+            <br />
+            <GradientText>تبني اليوم؟</GradientText>
+          </motion.h2>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: 0.2 }}
+            className="text-content-secondary text-lg md:text-xl font-bold max-w-2xl mx-auto"
+          >
+            اختر من الأفكار الجاهزة أو استلهم فكرتك الخاصة للمشاريع الخليجية
+          </motion.p>
+        </div>
 
-              <div className="relative z-10">
-                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-8 md:mb-10 text-center md:text-right">
-                      <div>
-                        <h2 className="text-2xl md:text-4xl font-black text-black mb-2 flex items-center justify-center md:justify-start gap-3">
-                            <Sparkles className="text-violet-600 w-8 h-8 md:w-10 md:h-10" fill="currentColor" />
-                            ما هو الموقع الذي تحلم به؟
-                        </h2>
-                        <p className="text-slate-500 font-bold text-sm md:text-lg">اكتب وصفاً مختصراً وسيقوم الذكاء الاصطناعي بالباقي.</p>
-                      </div>
-                      <div className="hidden md:block bg-yellow-300 border-2 border-black px-4 py-2 rounded-xl rotate-3 shadow-neo-sm font-black text-sm">
-                        مجاني للتجربة!
-                      </div>
-                  </div>
+        <div className="grid lg:grid-cols-2 gap-12 items-center">
+          {/* Use Cases Grid */}
+          <motion.div
+            initial={{ opacity: 0, x: 30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="grid grid-cols-2 md:grid-cols-3 gap-4"
+          >
+            {useCases.map((useCase, index) => (
+              <button
+                key={index}
+                onClick={() => setSelectedPrompt(useCase.prompt)}
+                className={cn(
+                  "p-6 border-3 border-black text-right transition-all flex flex-col items-start gap-4 rounded-2xl",
+                  selectedPrompt === useCase.prompt
+                    ? `${useCase.activeColor} text-white shadow-brutal translate-x-[2px] translate-y-[2px]`
+                    : "bg-white hover:bg-surface-secondary shadow-brutal hover:shadow-brutal-sm"
+                )}
+              >
+                <div className={cn(
+                  "p-3 border-2 border-black rounded-xl",
+                  selectedPrompt === useCase.prompt ? "bg-white/20" : useCase.color + " text-white"
+                )}>
+                  <useCase.icon className="h-6 w-6" />
+                </div>
+                <div className="font-black text-sm leading-tight">{useCase.title}</div>
+              </button>
+            ))}
+          </motion.div>
 
-                  <form onSubmit={handleStartBuilding} className="relative mb-8">
-                      <textarea 
-                          value={userPrompt}
-                          onChange={(e) => setUserPrompt(e.target.value)}
-                          className="w-full h-40 md:h-52 p-5 md:p-10 rounded-2xl md:rounded-3xl bg-slate-50 border-[3px] border-black font-bold text-base md:text-2xl placeholder:text-slate-300 focus:outline-none focus:shadow-neo transition-all resize-none shadow-neo-sm leading-relaxed"
-                          placeholder="مثال: أريد موقعاً لمطعم برجر عصري باللون الأسود والأصفر، مع صفحة منيو وحجز طاولات..."
-                      />
-                      <div className="mt-4 md:absolute md:bottom-6 md:left-6 flex">
-                          <button 
-                              type="submit"
-                              disabled={!userPrompt.trim()}
-                              className="w-full md:w-auto bg-[#7C3AED] text-white px-8 md:px-12 py-4 md:py-5 rounded-2xl border-[3px] border-black font-black text-lg md:text-2xl flex items-center justify-center gap-3 hover:translate-y-[-4px] hover:shadow-neo shadow-neo-sm transition-all active:translate-y-0 active:shadow-none disabled:opacity-50 disabled:translate-y-0 disabled:shadow-neo-sm group"
-                          >
-                              <Send size={24} className="rotate-180 group-hover:-translate-x-1 transition-transform" /> 
-                              ابدأ البناء الآن
-                          </button>
-                      </div>
-                  </form>
-
-                  {/* Suggestions Grid */}
-                  <div className="flex flex-col md:flex-row items-center gap-4 text-right">
-                      <span className="text-sm font-black text-slate-400 whitespace-nowrap">أفكار ملهمة:</span>
-                      <div className="flex flex-wrap items-center justify-center md:justify-start gap-2 md:gap-3">
-                          {suggestions.map((item, idx) => (
-                              <button 
-                                  key={idx}
-                                  type="button"
-                                  onClick={() => setUserPrompt(item.prompt)}
-                                  className="px-4 py-2 bg-white border-2 border-slate-200 rounded-xl text-xs md:text-sm font-bold text-slate-600 hover:border-black hover:bg-slate-50 hover:text-black transition-all shadow-sm active:scale-95"
-                              >
-                                  {item.label}
-                              </button>
-                          ))}
-                      </div>
-                  </div>
+          {/* Prompt Preview / Terminal View */}
+          <motion.div
+            initial={{ opacity: 0, x: -30 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            className="relative"
+          >
+            <div className="bg-surface-dark text-white border-3 border-black shadow-brutal-lg rounded-[2rem] overflow-hidden">
+              {/* Terminal Header */}
+              <div className="flex items-center gap-2 p-5 border-b border-white/10 bg-white/5">
+                <div className="flex gap-1.5">
+                  <div className="w-3.5 h-3.5 rounded-full bg-[#FF5F56] border border-black/20" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-[#FFBD2E] border border-black/20" />
+                  <div className="w-3.5 h-3.5 rounded-full bg-[#27C93F] border border-black/20" />
+                </div>
+                <span className="text-xs font-mono font-bold text-white/40 ms-4">KWQ8 AI Builder v3.0</span>
               </div>
-          </div>
-          
-          <div className="flex flex-col md:flex-row items-center justify-center gap-4 mt-8 text-slate-400 font-bold text-xs md:text-sm text-center">
-              <span className="flex items-center gap-1">✓ لا حاجة لخبرة تقنية</span>
-              <span className="hidden md:inline">•</span>
-              <span className="flex items-center gap-1">✓ يدعم اللغة العربية بطلاقة</span>
-              <span className="hidden md:inline">•</span>
-              <span className="flex items-center gap-1">✓ بناء فوري في 5 دقائق</span>
-          </div>
-      </motion.div>
+
+              {/* Terminal Body */}
+              <div className="p-8 md:p-10 min-h-[280px] flex flex-col">
+                <div className="flex-1">
+                  <div className="flex items-start gap-3 text-lg md:text-xl leading-relaxed">
+                    <span className="text-brand-cyan font-mono font-bold">Q8_AI_PROMPT:</span>
+                    <div className="flex-1">
+                      <span className="text-white font-bold">{selectedPrompt}</span>
+                      <motion.span 
+                        animate={{ opacity: [1, 0] }}
+                        transition={{ repeat: Infinity, duration: 0.8 }}
+                        className="inline-block w-2.5 h-6 bg-brand-violet ms-2 translate-y-1" 
+                      />
+                    </div>
+                  </div>
+                  
+                  <div className="mt-8 flex flex-wrap gap-2">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-white/30">تحليل المكونات المطلوبة...</span>
+                    <div className="flex gap-1">
+                      {['Responsive', 'Arabic-First', 'GCC-Localized', 'Payment-Ready'].map(tag => (
+                        <span key={tag} className="text-[9px] px-1.5 py-0.5 border border-white/10 rounded-sm font-mono text-white/50">{tag}</span>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                {/* Action Button */}
+                <div className="mt-10">
+                  <Button 
+                    variant="gradient" 
+                    size="xl" 
+                    className="w-full text-xl shadow-[4px_4px_0px_0px_#FFFFFF20]"
+                    onClick={handleStartBuilding}
+                  >
+                    <span>ابدأ البناء الذكي</span>
+                    <ArrowLeft className="h-6 w-6 ms-3 rtl-flip" />
+                  </Button>
+                </div>
+              </div>
+            </div>
+            
+            {/* Tooltip decor */}
+            <div className="absolute -bottom-6 -right-6 hidden md:block">
+              <div className="bg-brand-gold text-black px-4 py-2 rounded-xl border-3 border-black shadow-brutal font-black text-sm rotate-6">
+                أسرع بـ 3 أضعاف ⚡
+              </div>
+            </div>
+          </motion.div>
+        </div>
+      </div>
     </section>
   );
-};
+}
 
 export default PromptHub;

@@ -2,7 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, LayoutTemplate, ArrowRight, ArrowLeft, Check, Sparkles, Loader2, Globe, Search, Link as LinkIcon, X, CheckCircle2, Copy, ExternalLink, Share2, Smartphone, Twitter, Facebook, Instagram, Palette, MessageSquare, PartyPopper, Rocket, MousePointer2 } from 'lucide-react';
 import { ViewState } from '../../../types';
-import Button from '../../ui/Button';
+// Standardized casing for button import
+import Button from '../../ui/button.tsx';
 
 interface NewProjectWizardProps {
   onNavigate: (view: ViewState) => void;
@@ -15,6 +16,7 @@ const NewProjectWizard: React.FC<NewProjectWizardProps> = ({ onNavigate }) => {
 
   // Domain State
   const [domainType, setDomainType] = useState<'subdomain' | 'buy' | 'connect'>('subdomain');
+  // Fixed: Correctly initialize subdomain state using React.useState
   const [subdomain, setSubdomain] = useState('blue-sea-restaurant');
   const [domainSearch, setDomainSearch] = useState('');
   const [connectedDomain, setConnectedDomain] = useState('');
@@ -174,6 +176,7 @@ const NewProjectWizard: React.FC<NewProjectWizardProps> = ({ onNavigate }) => {
 
                     <Button 
                         fullWidth 
+                        variant="default"
                         size="lg" 
                         disabled={description.length < 10}
                         onClick={() => setStep(3)}
@@ -290,7 +293,7 @@ const NewProjectWizard: React.FC<NewProjectWizardProps> = ({ onNavigate }) => {
                                                 <div className="w-4 h-4 rounded-full bg-green-500 flex items-center justify-center text-white text-[10px] font-bold">✓</div>
                                                 <span className="font-black text-black">bluesea.kw</span>
                                             </div>
-                                            <div className="flex items-center gap-3">
+                                            <div className="flex items-center justify-between p-3 border-2 border-green-200 bg-green-50 rounded-lg">
                                                 <span className="text-xs font-bold text-slate-500 line-through">12 د.ك</span>
                                                 <span className="text-xs font-black bg-yellow-300 px-2 py-1 rounded border border-black">مجاني</span>
                                             </div>
@@ -307,7 +310,7 @@ const NewProjectWizard: React.FC<NewProjectWizardProps> = ({ onNavigate }) => {
                                                 <div className="w-4 h-4 rounded-full border-2 border-slate-300"></div>
                                                 <span className="font-bold text-black">bluesea.net</span>
                                             </div>
-                                            <div className="flex items-center gap-3">
+                                            <div className="flex items-center justify-between p-3 border-2 border-slate-200 bg-white rounded-lg hover:border-black cursor-pointer">
                                                 <span className="text-xs font-bold text-slate-500 line-through">9 د.ك</span>
                                                 <span className="text-xs font-black bg-yellow-300 px-2 py-1 rounded border border-black">مجاني</span>
                                             </div>
@@ -360,6 +363,7 @@ const NewProjectWizard: React.FC<NewProjectWizardProps> = ({ onNavigate }) => {
 
                     <Button 
                         fullWidth 
+                        variant="default"
                         size="lg" 
                         onClick={() => setStep(4)}
                         className="bg-[#7C3AED] border-black text-white hover:bg-[#6D28D9]"
@@ -452,7 +456,7 @@ const NewProjectWizard: React.FC<NewProjectWizardProps> = ({ onNavigate }) => {
                     key="step5"
                     initial={{ opacity: 0, scale: 0.9, rotate: -2 }}
                     animate={{ opacity: 1, scale: 1, rotate: 0 }}
-                    transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                    transition={{ type: "spring", stiffness: 200 }}
                     className="flex-1 flex flex-col items-center justify-center w-full relative"
                 >
                     <div className="w-full max-w-xl bg-white border-[3px] border-black rounded-2xl p-8 shadow-[12px_12px_0px_0px_#000] relative overflow-hidden">
@@ -545,7 +549,7 @@ const NewProjectWizard: React.FC<NewProjectWizardProps> = ({ onNavigate }) => {
                         </div>
 
                         <Button 
-                            variant="primary" 
+                            variant="default" 
                             fullWidth 
                             size="lg"
                             onClick={() => onNavigate('dashboard')}

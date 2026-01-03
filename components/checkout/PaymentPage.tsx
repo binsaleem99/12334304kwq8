@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Lock, CreditCard, Apple, Smartphone, ShieldCheck, Check } from 'lucide-react';
 import { ViewState } from '../../types';
-import Button from '../ui/Button';
+// Standardized casing for button import
+import Button from '../ui/button.tsx';
 
 interface PaymentPageProps {
   onNavigate: (view: ViewState) => void;
@@ -16,7 +17,7 @@ const PaymentPage: React.FC<PaymentPageProps> = ({ onNavigate }) => {
   const [isProcessing, setIsProcessing] = useState(false);
 
   const handlePayment = () => {
-    setIsProcessing(true);
+    setIsProcessing(false);
     // Simulate payment processing
     setTimeout(() => {
         setIsProcessing(false);

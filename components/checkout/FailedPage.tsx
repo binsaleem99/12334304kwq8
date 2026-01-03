@@ -1,8 +1,9 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, RefreshCw, HelpCircle, ArrowRight, AlertOctagon, CreditCard } from 'lucide-react';
 import { ViewState } from '../../types';
-import Button from '../ui/Button';
+// Standardized casing for button import
+import Button from '../ui/button.tsx';
 
 interface FailedPageProps {
   onNavigate: (view: ViewState) => void;
@@ -16,7 +17,7 @@ const FailedPage: React.FC<FailedPageProps> = ({ onNavigate }) => {
         
         {/* Logo */}
         <div className="mb-8 cursor-pointer" onClick={() => onNavigate('landing')}>
-            <div className="bg-black text-white px-4 py-2 transform -rotate-2 font-black text-3xl border-[3px] border-white shadow-lg">
+            <div className="bg-black text-white px-4 py-2 transform -rotate-2 font-black text-3xl border-[3px] border-white shadow-lg inline-block">
                 KWQ8
             </div>
         </div>

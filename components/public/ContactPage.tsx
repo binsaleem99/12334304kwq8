@@ -2,7 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MessageCircle, MapPin, Clock, Send, Phone, CheckCircle2, Globe } from 'lucide-react';
 import { ViewState } from '../../types';
-import Button from '../ui/Button';
+// Fixed: Standardized casing for button.tsx import
+import Button from '../ui/button.tsx';
 
 interface ContactPageProps {
   onNavigate: (view: ViewState) => void;
@@ -13,7 +14,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
     <div className="pt-32 pb-24 bg-white overflow-hidden">
       <div className="container mx-auto px-4 md:px-8">
         
-        {/* Header */}
+        {/* Page Header */}
         <div className="max-w-4xl mx-auto text-center mb-20">
             <motion.div 
                 initial={{ opacity: 0, y: 10 }}
@@ -26,7 +27,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 دعنا نتحدث عن <br/> <span className="text-[#7C3AED]">مشروعك القادم</span>
             </h1>
             <p className="text-xl text-slate-600 font-bold max-w-2xl mx-auto">
-                لديك استفسار؟ تواجه مشكلة تقنية؟ أو تريد باقة مخصصة لشركتك؟ فريقنا جاهز للرد عليك.
+                نحن هنا للمساعدة. فريقنا جاهز للرد على استفساراتك حول المنصة أو الباقات المخصصة.
             </p>
         </div>
 
@@ -94,7 +95,7 @@ const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                 </div>
             </div>
 
-            {/* Contact Form */}
+            {/* Contact Form Details */}
             <div className="lg:col-span-2">
                 <div className="bg-white border-[4px] border-black rounded-3xl p-8 md:p-12 shadow-neo-lg relative">
                     <h2 className="text-3xl font-black text-black mb-8">أرسل لنا رسالة</h2>
@@ -144,9 +145,9 @@ const ContactPage: React.FC<ContactPageProps> = ({ onNavigate }) => {
                             <CheckCircle2 size={16} className="text-green-600" /> سنقوم بالرد عليك خلال 24 ساعة عمل كحد أقصى.
                         </div>
 
-                        <button className="w-full md:w-auto bg-[#7C3AED] text-white border-[3px] border-black px-10 py-4 rounded-xl font-black text-xl shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex items-center justify-center gap-3">
+                        <Button className="w-full md:w-auto bg-[#7C3AED] text-white border-[3px] border-black px-10 py-4 rounded-xl font-black text-xl shadow-neo hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all flex items-center justify-center gap-3">
                             <Send size={24} /> إرسال الرسالة
-                        </button>
+                        </Button>
                     </form>
                 </div>
             </div>

@@ -1,173 +1,277 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { CreditCard, Check, Download, AlertTriangle, Plus, Star, Zap, Trash2, Edit2, X, History, TrendingUp, Wallet, Timer } from 'lucide-react';
+import { 
+  Coins, Plus, Clock, Receipt, ArrowLeft,
+  Sparkles, Zap, Crown, Building, AlertTriangle,
+  History, Wallet, Timer, MessageCircle, Gift
+} from 'lucide-react';
 import { ViewState } from '../../../types';
-import Button from '../../ui/Button';
-import { CREDIT_PACKAGES } from '../../../constants';
+// Fixed casing: Using lowercase to match canonical root file casing
+import Button from '../../ui/button.tsx';
+import Badge from '../../ui/badge.tsx';
+import { PageHeader, CreditBalance } from '../index.ts';
+import { GradientText } from '../../ui/gradient-text.tsx';
+import { cn } from '../../../lib/utils/cn.ts';
 
 interface BillingSettingsProps {
   onNavigate: (view: ViewState) => void;
 }
 
+const packages = [
+  {
+    id: "starter",
+    name: "المبتدئة",
+    icon: Sparkles,
+    credits: 100,
+    price: 5,
+    bonus: 0,
+    totalCredits: 100,
+    color: "bg-white",
+    hoverColor: "hover:bg-slate-50",
+  },
+  {
+    id: "popular",
+    name: "الشائعة",
+    icon: Zap,
+    credits: 500,
+    price: 20,
+    bonus: 10,
+    totalCredits: 550,
+    color: "bg-brand-violet",
+    textColor: "text-white",
+    popular: true,
+  },
+  {
+    id: "power",
+    name: "القوية",
+    icon: Crown,
+    credits: 1000,
+    price: 35,
+    bonus: 20,
+    totalCredits: 1200,
+    color: "bg-white",
+    hoverColor: "hover:bg-slate-50",
+  },
+  {
+    id: "enterprise",
+    name: "المؤسسات",
+    icon: Building,
+    credits: 5000,
+    price: 150,
+    bonus: 40,
+    totalCredits: 7000,
+    color: "bg-surface-dark",
+    textColor: "text-white",
+  },
+];
+
+const purchaseHistory = [
+  { id: "1", package: "الشائعة", credits: 550, price: 20, date: "15 يناير 2024", status: "completed" },
+  { id: "2", package: "المبتدئة", credits: 100, price: 5, date: "01 يناير 2024", status: "completed" },
+];
+
+const usageHistory = [
+  { id: "1", action: "بناء صفحة رئيسية", credits: 8, date: "منذ ساعة", project: "صالون الجمال" },
+  { id: "2", action: "تعديل الألوان", credits: 2, date: "منذ 3 ساعات", project: "صالون الجمال" },
+  { id: "3", action: "نشر الموقع", credits: 10, date: "منذ يوم", project: "صالون الجمال" },
+];
+
 const BillingSettings: React.FC<BillingSettingsProps> = ({ onNavigate }) => {
-  const [balance, setBalance] = useState(487);
-  
-  const history = [
-    { date: '15 ديسمبر 2025', package: 'الباقة الشائعة', credits: '720', amount: '20.000 د.ك', status: 'active' },
-    { date: '20 نوفمبر 2025', package: 'باقة البداية', credits: '120', amount: '5.000 د.ك', status: 'expired' },
-  ];
+  const currentCredits = 245;
+  const expiringCredits = 50;
+  const expiryDate = "15 فبراير 2024";
 
   return (
-    <div className="space-y-12 min-h-[80vh]">
-      {/* Header */}
-      <div>
-        <h1 className="text-3xl font-black text-black mb-1 flex items-center gap-2">
-            متجر الرصيد <Wallet className="text-[#7C3AED]" />
-        </h1>
-        <p className="text-slate-600 font-bold">اشترِ رصيداً لتستمر في بناء وتطوير مواقعك</p>
-      </div>
+    <div className="space-y-8" dir="rtl">
+      <PageHeader
+        title="الرصيد والاشتراكات 💰"
+        description="إدارة رصيدك، استعراض سجل الاستخدام، وشراء باقات جديدة."
+      />
 
-      {/* Credit Balance Card */}
-      <div className="bg-black text-white border-[4px] border-black rounded-2xl p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,0.2)] relative overflow-hidden">
-          <div className="absolute top-0 left-0 w-full h-full bg-[url('https://www.transparenttextures.com/patterns/cubes.png')] opacity-10"></div>
-          <div className="relative z-10 flex flex-col md:flex-row justify-between items-center gap-8">
-              <div className="text-center md:text-right">
-                  <h2 className="text-xl font-bold opacity-80 mb-2">رصيدك الحالي</h2>
-                  <div className="text-6xl font-black font-heading tracking-tighter text-[#FACC15] drop-shadow-md">
-                      {balance}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        {/* Main Content (2/3) */}
+        <div className="lg:col-span-2 space-y-8">
+          {/* Credit Packages Selection */}
+          <section>
+            <h2 className="text-2xl font-black mb-6">شراء رصيد</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {packages.map((pkg) => (
+                <motion.div
+                  key={pkg.id}
+                  whileHover={{ scale: 1.02, y: -2 }}
+                  onClick={() => onNavigate('checkout-payment')}
+                  className={cn(
+                    "relative p-6 border-3 border-black cursor-pointer transition-all rounded-2xl group",
+                    pkg.color,
+                    pkg.textColor,
+                    pkg.popular ? "shadow-brutal" : "shadow-brutal-sm hover:shadow-brutal",
+                    pkg.hoverColor
+                  )}
+                >
+                  {pkg.popular && (
+                    <div className="absolute -top-3 left-6">
+                      <Badge variant="gradient" size="lg" className="shadow-brutal-sm">
+                        الأكثر شيوعاً ⭐
+                      </Badge>
+                    </div>
+                  )}
+                  
+                  <div className="flex justify-between items-start mb-4">
+                    <div className={cn(
+                      "p-3 border-2 border-black rounded-xl",
+                      pkg.popular ? "bg-white/20" : "bg-brand-violet/10 text-brand-violet"
+                    )}>
+                      <pkg.icon className="h-6 w-6" />
+                    </div>
+                    <div className="text-left">
+                      <span className="text-3xl font-black tracking-tighter">{pkg.price}</span>
+                      <span className="text-sm font-bold mr-1">د.ك</span>
+                    </div>
                   </div>
-                  <div className="text-sm font-bold mt-2 text-[#A0A0A0]">نقطة رصيد</div>
-              </div>
-              
-              <div className="flex flex-col gap-2">
-                  <div className="bg-[#1A1A1A] border border-[#333] px-4 py-2 rounded-lg flex items-center gap-3">
-                      <Timer size={18} className="text-[#FACC15]" />
-                      <span className="text-sm font-bold">234 نقطة تنتهي خلال 15 يوم</span>
-                  </div>
-                  <div className="bg-[#1A1A1A] border border-[#333] px-4 py-2 rounded-lg flex items-center gap-3">
-                      <Timer size={18} className="text-[#FACC15]" />
-                      <span className="text-sm font-bold">253 نقطة تنتهي خلال 45 يوم</span>
-                  </div>
-              </div>
-          </div>
 
-          {balance < 50 && (
-              <div className="mt-8 bg-[#EF4444] text-white p-4 rounded-xl border-2 border-white/20 flex items-center gap-4 animate-pulse">
-                  <AlertTriangle size={24} className="text-white" />
-                  <div>
-                      <div className="font-black text-lg">تحذير: رصيدك منخفض!</div>
-                      <div className="text-sm font-medium">لديك 23 نقطة فقط. اشترِ المزيد للاستمرار في استخدام ميزات الذكاء الاصطناعي.</div>
+                  <h3 className="text-xl font-black mb-1">{pkg.name}</h3>
+                  <div className="flex items-center gap-2 mb-4">
+                    <p className={cn("text-lg font-black", pkg.textColor ? "text-brand-lime" : "text-brand-violet")}>
+                      {pkg.totalCredits.toLocaleString()} رصيد
+                    </p>
+                    {pkg.bonus > 0 && (
+                      <span className={cn(
+                        "text-[10px] font-black px-2 py-0.5 rounded border border-black",
+                        pkg.popular ? "bg-brand-lime text-black" : "bg-yellow-100 text-yellow-700"
+                      )}>
+                        +{pkg.bonus}% مجاناً
+                      </span>
+                    )}
                   </div>
-              </div>
-          )}
-      </div>
-
-      {/* Credit Packages */}
-      <div>
-          <h2 className="text-2xl font-black text-black mb-6">اختر باقة رصيد</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 items-end">
-              {CREDIT_PACKAGES.map((pkg) => (
-                  <div 
-                    key={pkg.id} 
-                    className={`relative p-6 rounded-2xl border-[3px] flex flex-col h-full transition-all ${
-                        pkg.popular 
-                        ? 'bg-[#7C3AED] text-white border-black shadow-[6px_6px_0px_0px_#000] scale-105 z-10'
-                        : pkg.id === 'enterprise'
-                        ? 'bg-black text-white border-black shadow-[6px_6px_0px_0px_#000]'
-                        : 'bg-white text-black border-black shadow-[6px_6px_0px_0px_#000]'
-                    }`}
-                  >
-                      {pkg.popular && (
-                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-[#FACC15] text-black px-4 py-1 rounded-full text-xs font-black border-2 border-black flex items-center gap-1">
-                              <Star size={12} fill="currentColor" /> الأكثر طلباً
-                          </div>
-                      )}
-                      {pkg.savings && !pkg.popular && (
-                          <div className="absolute -top-3 left-1/2 -translate-x-1/2 bg-green-500 text-white px-3 py-1 rounded-full text-xs font-bold border-2 border-black">
-                              {pkg.savings}
-                          </div>
-                      )}
-
-                      <div className="text-center mb-6 pb-6 border-b-2 border-current border-opacity-10">
-                          <h3 className="text-xl font-black mb-2">{pkg.name}</h3>
-                          <div className="text-4xl font-black mb-1">{pkg.credits}</div>
-                          <div className="text-xs font-bold opacity-70 mb-4">رصيد</div>
-                          {pkg.bonus > 0 && (
-                              <div className="inline-block bg-white/20 px-2 py-1 rounded text-xs font-bold mb-4">
-                                  + {pkg.bonus} مجاناً
-                              </div>
-                          )}
-                          <div className="text-2xl font-black">{pkg.price} د.ك</div>
-                      </div>
-
-                      <button className={`w-full py-3 rounded-xl font-black border-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,0.2)] hover:translate-y-1 hover:shadow-none transition-all ${
-                          pkg.popular ? 'bg-[#FACC15] text-black border-black' : 
-                          pkg.id === 'enterprise' ? 'bg-[#7C3AED] text-white border-[#7C3AED]' : 
-                          'bg-black text-white border-black'
-                      }`}>
-                          {pkg.id === 'enterprise' ? 'تواصل معنا' : 'شراء الآن'}
-                      </button>
+                  
+                  <div className="pt-4 border-t-2 border-black/10 flex items-center justify-between opacity-0 group-hover:opacity-100 transition-opacity">
+                    <span className="text-xs font-black uppercase tracking-widest">اختر هذه الباقة</span>
+                    <ArrowLeft className="h-4 w-4 rtl-flip" />
                   </div>
+                </motion.div>
               ))}
-          </div>
-      </div>
+            </div>
+          </section>
 
-      {/* Stats & History Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          
-          {/* Usage Stats */}
-          <div className="bg-white border-[3px] border-black rounded-xl p-6 shadow-[6px_6px_0px_0px_#000]">
-              <h3 className="text-xl font-black text-black mb-6">استهلاك الرصيد (آخر 30 يوم)</h3>
-              
-              <div className="flex items-end gap-2 h-40 mb-6 px-4">
-                  {[20, 45, 30, 60, 40, 75, 50, 45, 30, 20].map((h, i) => (
-                      <div key={i} className="flex-1 bg-[#7C3AED] rounded-t-lg relative group" style={{ height: `${h}%` }}>
-                          <div className="absolute -top-8 left-1/2 -translate-x-1/2 bg-black text-white text-xs px-2 py-1 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">
-                              {h} نقطة
-                          </div>
-                      </div>
-                  ))}
+          {/* Usage History */}
+          <section className="bg-white border-3 border-black shadow-brutal p-8 rounded-[2rem]">
+            <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
+              <div className="p-2 bg-brand-cyan/10 rounded-lg">
+                <Clock className="h-6 w-6 text-brand-cyan" />
               </div>
-              
-              <div className="grid grid-cols-3 gap-4 text-center border-t-2 border-slate-100 pt-4">
-                  <div>
-                      <div className="text-xs text-slate-500 font-bold">الإجمالي</div>
-                      <div className="font-black text-lg">415</div>
+              سجل الاستخدام
+            </h2>
+            <div className="space-y-4">
+              {usageHistory.map((item) => (
+                <div key={item.id} className="flex items-center justify-between p-4 border-3 border-black rounded-2xl hover:bg-slate-50 transition-colors group">
+                  <div className="flex items-center gap-4">
+                    <div className="w-10 h-10 rounded-xl bg-slate-100 border-2 border-black flex items-center justify-center font-black group-hover:bg-white transition-colors">
+                      {item.id}
+                    </div>
+                    <div>
+                      <p className="font-black text-lg">{item.action}</p>
+                      <p className="text-sm text-content-secondary font-bold">
+                        <span className="text-brand-violet">{item.project}</span> • {item.date}
+                      </p>
+                    </div>
                   </div>
-                  <div>
-                      <div className="text-xs text-slate-500 font-bold">المتوسط/يوم</div>
-                      <div className="font-black text-lg">13.8</div>
-                  </div>
-                  <div>
-                      <div className="text-xs text-slate-500 font-bold">الأكثر استهلاكاً</div>
-                      <div className="font-black text-lg">AI الصور</div>
-                  </div>
-              </div>
-          </div>
+                  <Badge variant="outline" size="lg" className="border-2 px-4 h-10 font-black text-brand-pink bg-brand-pink/5">
+                    -{item.credits}
+                  </Badge>
+                </div>
+              ))}
+            </div>
+            <Button variant="ghost" className="w-full mt-6 font-black">تحميل التقرير الكامل</Button>
+          </section>
 
           {/* Purchase History */}
-          <div className="bg-white border-[3px] border-black rounded-xl p-6 shadow-[6px_6px_0px_0px_#000]">
-              <h3 className="text-xl font-black text-black mb-6">سجل المشتريات</h3>
-              <div className="space-y-4">
-                  {history.map((item, idx) => (
-                      <div key={idx} className="flex items-center justify-between p-4 border-2 border-slate-100 rounded-xl hover:border-black transition-colors group bg-slate-50">
-                          <div>
-                              <div className="font-black text-black">{item.package}</div>
-                              <div className="text-xs text-slate-500 font-bold">{item.date}</div>
-                          </div>
-                          <div className="text-right">
-                              <div className="font-black text-[#7C3AED]">{item.credits} نقطة</div>
-                              <div className="text-xs font-bold text-slate-500">{item.amount}</div>
-                          </div>
-                          <div className={`w-3 h-3 rounded-full ${item.status === 'active' ? 'bg-green-500' : 'bg-red-500'}`} title={item.status === 'active' ? 'نشط' : 'منتهي'}></div>
-                      </div>
-                  ))}
+          <section className="bg-white border-3 border-black shadow-brutal p-8 rounded-[2rem]">
+            <h2 className="text-2xl font-black mb-6 flex items-center gap-3">
+              <div className="p-2 bg-brand-lime/20 rounded-lg">
+                <Receipt className="h-6 w-6 text-brand-lime" />
               </div>
-              <button className="w-full mt-4 py-3 border-2 border-dashed border-slate-300 rounded-xl text-slate-500 font-bold hover:text-black hover:border-black transition-colors">
-                  عرض السجل الكامل
-              </button>
+              سجل المشتريات
+            </h2>
+            <div className="space-y-4">
+              {purchaseHistory.map((item) => (
+                <div key={item.id} className="flex items-center justify-between p-5 border-3 border-black rounded-2xl hover:bg-slate-50 transition-colors">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2 bg-brand-lime/10 border-2 border-black rounded-lg">
+                      <Wallet className="h-5 w-5 text-brand-lime" />
+                    </div>
+                    <div>
+                      <p className="font-black text-lg">باقة {item.package}</p>
+                      <p className="text-sm text-content-secondary font-bold">{item.date}</p>
+                    </div>
+                  </div>
+                  <div className="text-left">
+                    <p className="font-black text-xl leading-none mb-1">{item.price} د.ك</p>
+                    <p className="text-xs text-brand-violet font-black">+{item.credits} رصيد</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </section>
+        </div>
+
+        {/* Sidebar (1/3) */}
+        <div className="space-y-6">
+          {/* Current Balance Card */}
+          <CreditBalance
+            balance={currentCredits}
+            expiringCredits={expiringCredits}
+            expiringDate={expiryDate}
+            onNavigate={onNavigate}
+          />
+
+          {/* First Purchase Promo */}
+          <motion.div 
+            initial={{ scale: 0.95 }}
+            animate={{ scale: 1 }}
+            className="bg-brand-lime border-3 border-black shadow-brutal p-6 rounded-3xl relative overflow-hidden"
+          >
+            <div className="absolute -top-4 -right-4 w-16 h-16 bg-white/20 rounded-full blur-xl" />
+            <div className="flex items-center gap-3 mb-3 relative z-10">
+              <div className="p-2 bg-white border-2 border-black rounded-lg shadow-brutal-sm">
+                <Gift className="h-6 w-6 text-brand-pink" />
+              </div>
+              <h3 className="font-black text-xl">عرض خاص!</h3>
+            </div>
+            <p className="font-bold leading-relaxed mb-4 relative z-10">
+              أول عملية شراء تحصل على <span className="font-black text-brand-violet">+20% رصيد إضافي</span> مجاناً! لا تفوت الفرصة.
+            </p>
+            <div className="bg-black/5 p-2 rounded-lg border border-black/10 text-xs font-black text-center uppercase tracking-tighter">
+              CODE: FIRST20
+            </div>
+          </motion.div>
+
+          {/* Support Helper */}
+          <div className="bg-white border-3 border-black shadow-brutal p-6 rounded-3xl group">
+            <h3 className="text-xl font-black mb-3">تحتاج مساعدة؟ 🆘</h3>
+            <p className="text-sm text-content-secondary font-bold mb-6 leading-relaxed">
+              فريقنا متواجد 24/7 لمساعدتك في أي استفسار بخصوص الرصيد أو الدفع.
+            </p>
+            <Button 
+              variant="secondary" 
+              className="w-full h-12 gap-2"
+              onClick={() => onNavigate('dashboard-help')}
+            >
+              <MessageCircle className="h-5 w-5 text-brand-violet" />
+              تحدث معنا عبر واتساب
+            </Button>
           </div>
 
+          {/* Quick FAQ Snippet */}
+          <div className="p-4 bg-slate-900 text-white border-3 border-black shadow-brutal rounded-3xl">
+             <div className="flex items-center gap-2 mb-2 text-brand-gold">
+                <AlertTriangle size={16} />
+                <span className="text-xs font-black uppercase">معلومة هامة</span>
+             </div>
+             <p className="text-xs font-bold text-slate-400 leading-relaxed">
+                الرصيد المشترى صالح لمدة 90 يوماً. نرسل لك تذكيرات قبل انتهاء الصلاحية بـ 7 أيام.
+             </p>
+          </div>
+        </div>
       </div>
     </div>
   );

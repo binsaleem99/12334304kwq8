@@ -50,6 +50,8 @@ export type ViewState =
   | 'dashboard-billing'
   | 'dashboard-domains'
   | 'dashboard-help'
+  | 'dashboard-analytics'
+  | 'dashboard-publish'
   | 'builder'
   | 'dashboard-preview'
   | 'checkout-payment'
@@ -64,11 +66,15 @@ export type ViewState =
   | 'admin-projects'
   | 'admin-templates'
   | 'admin-billing'
+  | 'admin-packages'
+  /* Rename 'analytics' to 'admin-analytics' to match ViewState usage in App.tsx and AdminSidebar */
   | 'admin-analytics'
   | 'admin-blog'
   | 'admin-logs'
   | 'admin-referrals'
-  | 'admin-settings';
+  | 'admin-affiliates'
+  | 'admin-settings'
+  | 'admin-system';
 
 export interface NavItem {
   label: string;

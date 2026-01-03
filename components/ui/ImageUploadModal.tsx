@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Image as ImageIcon, Sparkles, Search, Check } from 'lucide-react';
-import Button from './Button';
+// Standardized casing for button import
+import Button from './button.tsx';
 
 interface ImageUploadModalProps {
   isOpen: boolean;
@@ -55,19 +56,19 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ isOpen, onClose, on
         <div className="flex border-b-[3px] border-black bg-white">
           <button 
             onClick={() => setActiveTab('upload')}
-            className={`flex-1 py-4 font-black text-sm flex items-center justify-center gap-2 transition-colors ${activeTab === 'upload' ? 'bg-[#7C3AED] text-white' : 'hover:bg-slate-50 text-black'}`}
+            className={`flex-1 py-4 font-black text-sm flex items-center justify-center gap-2 transition-colors ${activeTab === 'upload' ? 'bg-[#7C3AED]' : 'hover:bg-slate-50 text-black'}`}
           >
             <Upload size={18} /> رفع صورة
           </button>
           <button 
             onClick={() => setActiveTab('library')}
-            className={`flex-1 py-4 font-black text-sm flex items-center justify-center gap-2 transition-colors border-r-[3px] border-l-[3px] border-black ${activeTab === 'library' ? 'bg-[#7C3AED] text-white' : 'hover:bg-slate-50 text-black'}`}
+            className={`flex-1 py-4 font-black text-sm flex items-center justify-center gap-2 transition-colors border-r-[3px] border-l-[3px] border-black ${activeTab === 'library' ? 'bg-[#7C3AED]' : 'hover:bg-slate-50 text-black'}`}
           >
             <ImageIcon size={18} /> المكتبة
           </button>
           <button 
             onClick={() => setActiveTab('ai')}
-            className={`flex-1 py-4 font-black text-sm flex items-center justify-center gap-2 transition-colors ${activeTab === 'ai' ? 'bg-[#7C3AED] text-white' : 'hover:bg-slate-50 text-black'}`}
+            className={`flex-1 py-4 font-black text-sm flex items-center justify-center gap-2 transition-colors ${activeTab === 'ai' ? 'bg-[#7C3AED]' : 'hover:bg-slate-50 text-black'}`}
           >
             <Sparkles size={18} /> توليد AI
           </button>
@@ -90,7 +91,7 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ isOpen, onClose, on
               </div>
               <h3 className="text-xl font-black text-black mb-2">اسحب وأفلت الصورة هنا</h3>
               <p className="text-slate-500 font-bold mb-6">أو اضغط للتصفح من جهازك</p>
-              <Button variant="primary" onClick={() => {}}>
+              <Button variant="default" onClick={() => {}}>
                 اختر ملفاً
               </Button>
               <p className="text-xs font-bold text-slate-400 mt-4">يدعم JPG, PNG, WEBP (حد أقصى 5MB)</p>
@@ -154,11 +155,11 @@ const ImageUploadModal: React.FC<ImageUploadModalProps> = ({ isOpen, onClose, on
           )}
         </div>
 
-        {/* Footer */}
+        {/* Footer Actions */}
         <div className="p-6 border-t-[3px] border-black bg-white flex justify-end gap-3">
           <Button variant="secondary" onClick={onClose}>إلغاء</Button>
           <Button 
-            variant="primary" 
+            variant="default" 
             disabled={!selectedImage && activeTab !== 'upload'}
             onClick={() => selectedImage && onSelect(selectedImage)}
           >
