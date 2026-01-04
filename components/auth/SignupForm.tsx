@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, Lock, Eye, EyeOff, ArrowLeft, Gift } from 'lucide-react';
-// Standardized casing for button import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx import
+import Button from '../ui/Button.tsx';
 import Input from '../ui/input.tsx';
 import { 
   AuthCard, 
@@ -12,17 +12,20 @@ import {
   PasswordStrength,
 } from './index.ts';
 import { ViewState } from '../../types.ts';
+import { createClient } from '../../lib/supabase/client.ts';
+import { useRouter } from 'next/navigation';
 
 interface SignupProps {
   onNavigate: (view: ViewState) => void;
 }
 
 const SignupForm: React.FC<SignupProps> = ({ onNavigate }) => {
+  const router = useRouter();
+  const supabase = createClient();
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [agreed, setAgreed] = useState(false);
   
-  /* Fix: Use React.useState correctly instead of attempting to use setFormData before its declaration */
   const [formData, setFormData] = useState({
     fullName: '',
     email: '',
@@ -31,34 +34,53 @@ const SignupForm: React.FC<SignupProps> = ({ onNavigate }) => {
   });
   const [errors, setErrors] = useState<Record<string, string>>({});
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const newErrors: Record<string, string> = {};
+    setErrors({});
     
-    if (!formData.fullName) newErrors.fullName = "الاسم الكامل مطلوب";
-    if (!formData.email) newErrors.email = "البريد الإلكتروني مطلوب";
-    if (!formData.password) newErrors.password = "كلمة المرور مطلوبة";
-    if (!agreed) newErrors.terms = "يجب الموافقة على الشروط للمتابعة";
+    if (formData.password.length < 12) {
+      setErrors({ password: "يجب أن تكون كلمة المرور 12 حرفاً على الأقل للأمان" });
+      return;
+    }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (!agreed) {
+      setErrors({ terms: "يجب الموافقة على الشروط للمتابعة" });
       return;
     }
     
     setIsLoading(true);
-    setTimeout(() => {
-        setIsLoading(false);
-        onNavigate('verify-email');
-    }, 2000);
+
+    const { data, error } = await supabase.auth.signUp({
+      email: formData.email,
+      password: formData.password,
+      options: {
+        data: {
+          full_name: formData.fullName,
+          phone: formData.phone,
+        },
+        emailRedirectTo: `${window.location.origin}/api/auth/callback`,
+      },
+    });
+
+    if (error) {
+      setErrors({ auth: error.message });
+      setIsLoading(false);
+      return;
+    }
+
+    if (data.user) {
+      router.push(`/verify-email?email=${encodeURIComponent(formData.email)}`);
+    }
   };
 
-  const handleGoogleSignup = () => {
+  const handleGoogleSignup = async () => {
     setIsLoading(true);
-    setTimeout(() => {
-        localStorage.setItem('kwq8_tier', 'pro');
-        onNavigate('dashboard');
-        setIsLoading(false);
-    }, 1200);
+    await supabase.auth.signInWithOAuth({ 
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/callback`
+      }
+    });
   };
 
   return (
@@ -99,6 +121,12 @@ const SignupForm: React.FC<SignupProps> = ({ onNavigate }) => {
           <GoogleAuthButton mode="signup" isLoading={isLoading} onClick={handleGoogleSignup} />
 
           <AuthDivider />
+
+          {errors.auth && (
+            <p className="mb-4 text-sm text-red-500 font-bold text-center bg-red-50 p-2 border border-red-200 rounded-lg">
+              {errors.auth}
+            </p>
+          )}
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input

@@ -6,10 +6,10 @@ import {
   ArrowLeft, Scissors, UtensilsCrossed, ShoppingBag, 
   Briefcase, Camera, Stethoscope, Sparkles 
 } from "lucide-react";
-// Standardized casing for button import
-import Button from "../ui/button.tsx";
-// Fixed casing: Standardized to lowercase to match canonical root file casing
-import GradientText from "../ui/gradient-text.tsx";
+// Fixed: Standardized casing for Button.tsx
+import Button from "../ui/Button.tsx";
+// Fixed: Standardized casing for GradientText.tsx
+import GradientText from "../ui/GradientText.tsx";
 import { cn } from "../../lib/utils/cn.ts";
 import { ViewState } from "../../types.ts";
 

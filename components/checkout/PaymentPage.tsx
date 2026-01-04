@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight, Lock, CreditCard, Apple, Smartphone, ShieldCheck, Check } from 'lucide-react';
 import { ViewState } from '../../types';
-// Standardized casing for button import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx
+import Button from '../ui/Button.tsx';
 
 interface PaymentPageProps {
   onNavigate: (view: ViewState) => void;

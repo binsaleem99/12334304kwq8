@@ -1,14 +1,13 @@
 "use client";
 
 import * as React from "react";
-/* Fixed: Added missing TrendingUp import */
 import { 
   Server, Database, Cpu, HardDrive, Wifi,
   CheckCircle, AlertTriangle, XCircle, RefreshCw,
   Activity, TrendingUp
 } from "lucide-react";
-// Fix: Standardized import casing to lowercase
-import Button from "../../../components/ui/button.tsx";
+// Fix: Standardized import casing to uppercase Button.tsx
+import Button from "../../../components/ui/Button.tsx";
 import { Badge } from "../../../components/ui/badge.tsx";
 import { AdminPageHeader } from "../../../components/admin/index.ts";
 import { cn } from "../../../lib/utils/cn.ts";

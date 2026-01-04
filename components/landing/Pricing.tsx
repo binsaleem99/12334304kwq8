@@ -1,10 +1,11 @@
 "use client";
 
 import * as React from "react";
+import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Check, Sparkles, Zap, Crown, Building } from "lucide-react";
-// Standardized casing for button import
-import Button from "../ui/button.tsx";
+// Fixed: Standardized casing for Button.tsx import
+import Button from "../ui/Button.tsx";
 import Badge from "../ui/badge.tsx";
 import { GradientText } from "../ui/index.ts";
 import { cn } from "../../lib/utils/cn.ts";
@@ -91,8 +92,10 @@ const packages = [
 ];
 
 export function Pricing() {
-  const navigateToSignup = () => {
-    window.location.hash = "#signup";
+  const router = useRouter();
+
+  const handlePurchase = (id: string) => {
+    router.push(`/signup?package=${id}`);
   };
 
   return (
@@ -129,7 +132,6 @@ export function Pricing() {
             ادفع فقط مقابل ما تستخدمه. بدون اشتراكات شهرية.
           </motion.p>
 
-          {/* First Purchase Bonus */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -218,7 +220,7 @@ export function Pricing() {
                   variant={pkg.popular ? "secondary" : "default"}
                   size="lg"
                   className="w-full mt-auto"
-                  onClick={navigateToSignup}
+                  onClick={() => handlePurchase(pkg.id)}
                 >
                   اشترِ الآن
                 </Button>

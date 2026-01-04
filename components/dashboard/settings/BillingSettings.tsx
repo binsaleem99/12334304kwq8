@@ -6,11 +6,11 @@ import {
   History, Wallet, Timer, MessageCircle, Gift
 } from 'lucide-react';
 import { ViewState } from '../../../types';
-// Fixed casing: Using lowercase to match canonical root file casing
-import Button from '../../ui/button.tsx';
+// Fixed: Standardized casing to match Button.tsx
+import Button from '../../ui/Button.tsx';
 import Badge from '../../ui/badge.tsx';
 import { PageHeader, CreditBalance } from '../index.ts';
-import { GradientText } from '../../ui/gradient-text.tsx';
+import { GradientText } from '../../ui/GradientText.tsx';
 import { cn } from '../../../lib/utils/cn.ts';
 
 interface BillingSettingsProps {

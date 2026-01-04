@@ -7,8 +7,8 @@ import {
   ArrowRight, Monitor, Tablet, Smartphone, 
   RefreshCw, Edit, Rocket, Share2
 } from "lucide-react";
-// Fix: Standardized import casing to lowercase
-import Button from "../../../../../components/ui/button.tsx";
+// Fixed: Standardized casing for Button.tsx import
+import Button from "../../../../../components/ui/Button.tsx";
 import { cn } from "../../../../../lib/utils/cn.ts";
 
 type DeviceType = "desktop" | "tablet" | "mobile";

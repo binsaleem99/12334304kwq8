@@ -1,11 +1,10 @@
+
 "use client";
 
 import React from 'react';
-import Link from 'next/link';
 import { motion } from 'framer-motion';
-// Standardized casing for button import
-import Button from '../ui/button.tsx';
-import { Play, Star, MapPin, Zap } from 'lucide-react';
+import Button from '../ui/Button.tsx';
+import { Play, Star, MapPin } from 'lucide-react';
 
 const Hero = () => {
   return (
@@ -29,15 +28,13 @@ const Hero = () => {
             </h1>
 
             <p className="text-base md:text-xl text-slate-800 font-medium mb-10 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-              اكتب ما تريد بالعربية... وشاهد موقعك يُبنى أمامك in دقائق. تقنية تفهم لغتك وثقافتك المحلية.
+              اكتب ما تريد بالعربية... وشاهد موقعك يُبنى أمامك في دقائق. تقنية تفهم لغتك وثقافتك المحلية.
             </p>
 
             <div className="flex flex-col sm:flex-row items-center gap-4 justify-center lg:justify-start">
-              <Link href="/auth/signup" className="w-full sm:w-auto">
-                <Button variant="gradient" size="lg" className="w-full shadow-neo">
-                  ابدأ بـ 1 د.ك فقط →
-                </Button>
-              </Link>
+              <Button variant="gradient" size="lg" className="w-full sm:w-auto shadow-neo">
+                ابدأ بـ 1 د.ك فقط →
+              </Button>
               <Button variant="secondary" size="lg" className="w-full sm:w-auto shadow-neo">
                 <Play className="w-5 h-5 ml-2 fill-black" />
                 شاهد العرض

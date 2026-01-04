@@ -2,8 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Bot, LayoutTemplate, ArrowRight, ArrowLeft, Check, Sparkles, Loader2, Globe, Search, Link as LinkIcon, X, CheckCircle2, Copy, ExternalLink, Share2, Smartphone, Twitter, Facebook, Instagram, Palette, MessageSquare, PartyPopper, Rocket, MousePointer2 } from 'lucide-react';
 import { ViewState } from '../../../types';
-// Standardized casing for button import
-import Button from '../../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx
+import Button from '../../ui/Button.tsx';
 
 interface NewProjectWizardProps {
   onNavigate: (view: ViewState) => void;

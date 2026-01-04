@@ -1,8 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Settings, Search, Globe, BarChart3, Database, AlertTriangle, Save, Upload, X, Check, Globe as GlobeIcon, AlertCircle, ArrowLeft, Trash2, Plug, MessageCircle, Facebook, Lock, Code, Copy, ExternalLink } from 'lucide-react';
-// Fixed casing: Using lowercase to match canonical root file casing
-import Button from '../../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx
+import Button from '../../ui/Button.tsx';
 import { ViewState } from '../../../types';
 
 interface ProjectSettingsProps {

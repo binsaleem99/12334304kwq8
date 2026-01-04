@@ -11,7 +11,11 @@ interface PreviewPageProps {
 
 type DeviceType = 'mobile' | 'tablet' | 'desktop';
 
-const PreviewPage: React.FC<PreviewPageProps> = ({ onNavigate, projectName = "موقع المطعم البحري" }) => {
+/**
+ * PreviewPage provides an interactive environment to test site responsiveness.
+ */
+// Refactored from React.FC to standard function to resolve children requirement errors
+export default function PreviewPage({ onNavigate, projectName = "موقع المطعم البحري" }: PreviewPageProps) {
   const [device, setDevice] = useState<DeviceType>('desktop');
   const [width, setWidth] = useState(1440); // Initial width for desktop
   const [isDragging, setIsDragging] = useState(false);
@@ -38,11 +42,6 @@ const PreviewPage: React.FC<PreviewPageProps> = ({ onNavigate, projectName = "م
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
         if (!isDragging || !containerRef.current) return;
-        
-        const containerRect = containerRef.current.getBoundingClientRect();
-        // Calculate width from center (assuming centered preview)
-        // Or simpler: distance from container left to mouse x
-        // Let's assume standard resize from right edge
         
         // Find the center of the screen
         const screenCenter = window.innerWidth / 2;
@@ -246,6 +245,4 @@ const PreviewPage: React.FC<PreviewPageProps> = ({ onNavigate, projectName = "م
       </div>
     </div>
   );
-};
-
-export default PreviewPage;
+}

@@ -1,10 +1,9 @@
-
 "use client";
 
 import * as React from "react";
 import Link from "next/link";
-// Fix: Standardized casing to use lowercase filename for GradientText
-import { GradientText } from "../ui/gradient-text.tsx";
+// Fixed: Standardized casing for GradientText.tsx import
+import GradientText from "../ui/GradientText.tsx";
 
 interface AuthCardProps {
   title: string;

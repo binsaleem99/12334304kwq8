@@ -3,8 +3,8 @@ import { motion } from 'framer-motion';
 import { Check, Download, Mail, ArrowRight, CreditCard, ExternalLink } from 'lucide-react';
 // Fix: Use correct path for ViewState
 import { ViewState } from '../../types.ts';
-// Standardized casing for button import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx
+import Button from '../ui/Button.tsx';
 
 interface SuccessPageProps {
   onNavigate: (view: ViewState) => void;

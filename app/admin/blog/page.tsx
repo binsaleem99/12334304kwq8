@@ -4,8 +4,8 @@ import * as React from "react";
 import { 
   Plus, Search, FileText, Eye, Edit, Trash2,
 } from "lucide-react";
-// Fix: Standardized import casing to lowercase
-import Button from "../../../components/ui/button.tsx";
+// Fixed: Standardized casing for Button.tsx import
+import Button from "../../../components/ui/Button.tsx";
 import { Badge } from "../../../components/ui/badge.tsx";
 import { AdminPageHeader, AdminTable } from "../../../components/admin/index.ts";
 import { cn } from "../../../lib/utils/cn.ts";

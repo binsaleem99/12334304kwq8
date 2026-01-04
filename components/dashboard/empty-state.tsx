@@ -1,7 +1,7 @@
 import * as React from "react";
 import { LucideIcon } from "lucide-react";
-// Fix: Standardized import casing to lowercase
-import Button from "../ui/button.tsx";
+// Fixed: Standardized import casing to Button.tsx
+import Button from "../ui/Button.tsx";
 
 interface EmptyStateProps {
   icon: LucideIcon;

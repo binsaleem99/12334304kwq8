@@ -9,11 +9,11 @@ import {
   Camera, Stethoscope, Building, GraduationCap,
   Check
 } from "lucide-react";
-// Standardized casing for button import
-import Button from "../../../../components/ui/button.tsx";
+// Fixed: Standardized casing for Button.tsx
+import Button from "../../../../components/ui/Button.tsx";
 import Input from "../../../../components/ui/input.tsx";
 // Standardized casing for GradientText import
-import { GradientText } from "../../../../components/ui/gradient-text.tsx";
+import { GradientText } from "../../../../components/ui/GradientText.tsx";
 import { cn } from "../../../../lib/utils/cn.ts";
 
 const industries = [

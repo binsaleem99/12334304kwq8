@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Lock, Eye, EyeOff, ArrowLeft, CheckCircle } from 'lucide-react';
-// Fixed: Standardized casing for button.tsx import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx import
+import Button from '../ui/Button.tsx';
 import Input from '../ui/input.tsx';
 import { AuthCard, PasswordStrength } from './index.ts';
 import { ViewState } from '../../types.ts';

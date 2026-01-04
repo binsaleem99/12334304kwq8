@@ -4,17 +4,14 @@ import * as React from "react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
-// Standardized: Using lowercase button.tsx to resolve casing conflicts
-import Button from "../../../components/ui/button.tsx";
+// Fixed: Standardized casing for Button.tsx import
+import Button from "../../../components/ui/Button.tsx";
 import Input from "../../../components/ui/input.tsx";
 import { AuthCard } from "../../../components/auth/index.ts";
+import { createClient } from "../../../lib/supabase/client.ts";
 
-/**
- * ForgotPasswordPage component providing password recovery functionality.
- * Features a split state for request and confirmation, adhering to the 
- * Neo-Brutalist brand identity.
- */
 export default function ForgotPasswordPage() {
+  const supabase = createClient();
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSubmitted, setIsSubmitted] = React.useState(false);
   const [email, setEmail] = React.useState("");
@@ -29,30 +26,27 @@ export default function ForgotPasswordPage() {
       return;
     }
 
-    if (!/^\S+@\S+$/.test(email)) {
-      setError("يرجى إدخال بريد إلكتروني صحيح");
-      return;
-    }
-
     setIsLoading(true);
 
-    // Simulation of Backend password reset request
-    console.log("Password reset request for:", email);
-    
-    // Simulate network delay
-    await new Promise((resolve) => setTimeout(resolve, 1500));
+    const { error: resetError } = await supabase.auth.resetPasswordForEmail(email, {
+      redirectTo: `${window.location.origin}/reset-password`,
+    });
+
+    if (resetError) {
+      setError(resetError.message);
+      setIsLoading(false);
+      return;
+    }
     
     setIsLoading(false);
     setIsSubmitted(true);
   };
 
-  // Success view after submission
   if (isSubmitted) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
         className="w-full"
       >
         <AuthCard
@@ -73,11 +67,6 @@ export default function ForgotPasswordPage() {
               <br />
               <strong className="text-content-primary font-black text-xl">{email}</strong>
             </p>
-            <div className="bg-surface-secondary border-2 border-black/10 rounded-xl p-4 mb-8">
-              <p className="text-sm text-content-muted font-bold">
-                لم تستلم الرسالة? تحقق من مجلد الرسائل غير المرغوب فيها (Spam) أو انتظر بضع دقائق.
-              </p>
-            </div>
             <Button
               variant="outline"
               fullWidth
@@ -91,26 +80,14 @@ export default function ForgotPasswordPage() {
             </Button>
           </div>
         </AuthCard>
-
-        <div className="text-center mt-8">
-          <Link
-            href="/login"
-            className="text-sm font-black text-content-muted hover:text-content-primary inline-flex items-center gap-2 transition-colors group"
-          >
-            <ArrowLeft className="h-4 w-4 rtl-flip rotate-180 transition-transform group-hover:-translate-x-1" />
-            العودة لتسجيل الدخول
-          </Link>
-        </div>
       </motion.div>
     );
   }
 
-  // Initial request view
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
       className="w-full"
     >
       <AuthCard
@@ -126,7 +103,6 @@ export default function ForgotPasswordPage() {
         }
       >
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Email Address Input */}
           <Input
             type="email"
             label="البريد الإلكتروني"
@@ -139,7 +115,6 @@ export default function ForgotPasswordPage() {
             autoComplete="email"
           />
 
-          {/* Action Button */}
           <Button
             type="submit"
             variant="gradient"
@@ -153,17 +128,6 @@ export default function ForgotPasswordPage() {
           </Button>
         </form>
       </AuthCard>
-
-      {/* Primary Navigation Redirect */}
-      <div className="text-center mt-8">
-        <Link
-          href="/login"
-          className="text-sm font-black text-content-muted hover:text-content-primary inline-flex items-center gap-2 transition-colors group"
-        >
-          <ArrowLeft className="h-4 w-4 rtl-flip rotate-180 transition-transform group-hover:-translate-x-1" />
-          العودة لتسجيل الدخول
-        </Link>
-      </div>
     </motion.div>
   );
 }

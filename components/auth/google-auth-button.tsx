@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-// Fix: Standardized import casing to lowercase
-import Button from "../ui/button.tsx";
+// Fixed: Standardized import casing for Button.tsx
+import Button from "../ui/Button.tsx";
 import { cn } from "../../lib/utils/cn.ts";
 
 interface GoogleAuthButtonProps {

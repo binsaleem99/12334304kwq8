@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Rocket, Zap, Heart, Globe, ArrowRight, Code, Palette, Search, Briefcase, MapPin, Clock, Coffee, Monitor, Pizza, Sofa } from 'lucide-react';
 import { ViewState } from '../../types';
-// Standardized casing for button import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx
+import Button from '../ui/Button.tsx';
 
 interface HiringPageProps {
   onNavigate: (view: ViewState) => void;

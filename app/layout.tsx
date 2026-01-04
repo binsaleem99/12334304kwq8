@@ -1,7 +1,7 @@
 import React from "react";
-import type { Metadata } from "next";
 import { Tajawal, Plus_Jakarta_Sans } from "next/font/google";
 import { ToastProvider } from "../components/ui/toast.tsx";
+import NetworkStatus from "../components/ui/NetworkStatus.tsx";
 import "./globals.css";
 
 const tajawal = Tajawal({
@@ -18,7 +18,7 @@ const plusJakarta = Plus_Jakarta_Sans({
   display: "swap",
 });
 
-export const metadata: Metadata = {
+export const metadata = {
   title: {
     default: "KWQ8 - ابنِ موقعك بالذكاء الاصطناعي",
     template: "%s | KWQ8",
@@ -37,8 +37,9 @@ export default function RootLayout({
       dir="rtl" 
       className={`${tajawal.variable} ${plusJakarta.variable}`}
     >
-      <body className="min-h-screen bg-surface-primary font-arabic antialiased">
+      <body className="min-h-screen bg-surface-primary font-arabic antialiased overflow-x-hidden">
         <ToastProvider>
+          <NetworkStatus />
           {children}
         </ToastProvider>
       </body>

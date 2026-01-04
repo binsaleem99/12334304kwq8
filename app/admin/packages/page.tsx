@@ -6,8 +6,8 @@ import {
   Check
 } from "lucide-react";
 import { motion } from "framer-motion";
-// Fix: Standardized import casing to lowercase
-import Button from "../../../components/ui/button.tsx";
+// Fixed: Standardized casing for Button.tsx import
+import Button from "../../../components/ui/Button.tsx";
 import { Badge } from "../../../components/ui/badge.tsx";
 import Input from "../../../components/ui/input.tsx";
 import Modal from "../../../components/ui/modal.tsx";

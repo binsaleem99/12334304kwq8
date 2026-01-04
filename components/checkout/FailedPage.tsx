@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { X, RefreshCw, HelpCircle, ArrowRight, AlertOctagon, CreditCard } from 'lucide-react';
 import { ViewState } from '../../types';
-// Standardized casing for button import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized casing to match Button.tsx
+import Button from '../ui/Button.tsx';
 
 interface FailedPageProps {
   onNavigate: (view: ViewState) => void;

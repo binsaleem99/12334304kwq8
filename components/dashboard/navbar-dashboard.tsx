@@ -1,10 +1,9 @@
-
 "use client";
 
 import * as React from "react";
 import { Bell, Search, User, LogOut, Settings, ChevronDown } from "lucide-react";
-// Fix: Standardized casing to use lowercase filename for GradientText
-import GradientText from "../ui/gradient-text.tsx";
+// Fixed: Standardized casing for GradientText.tsx import
+import GradientText from "../ui/GradientText.tsx";
 import { CreditBalance } from "./credit-balance.tsx";
 import { cn } from "../../lib/utils/cn.ts";
 

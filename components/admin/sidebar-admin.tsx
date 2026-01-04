@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -9,8 +8,8 @@ import {
   ChevronRight, LogOut, Shield
 } from "lucide-react";
 import { cn } from "../../lib/utils/cn.ts";
-// Fix: Standardized casing to use lowercase filename for GradientText
-import GradientText from "../ui/gradient-text.tsx";
+// Fixed: Standardized casing for GradientText.tsx import
+import GradientText from "../ui/GradientText.tsx";
 
 const navItems = [
   { href: "/admin", label: "نظرة عامة", icon: LayoutDashboard },

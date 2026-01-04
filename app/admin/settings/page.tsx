@@ -6,8 +6,8 @@ import {
   Key, Clock, UserPlus, Lock, Check, AlertTriangle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-/* Fixed: Added missing Badge import and standardized casing to lowercase source files */
-import Button from "../../../components/ui/button.tsx";
+// Fixed: Added missing Badge import and standardized casing for Button.tsx
+import Button from "../../../components/ui/Button.tsx";
 import Input from "../../../components/ui/input.tsx";
 import Badge from "../../../components/ui/badge.tsx";
 import { AdminPageHeader } from "../../../components/admin/index.ts";

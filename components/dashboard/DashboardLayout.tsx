@@ -9,7 +9,11 @@ interface DashboardLayoutProps {
   onNavigate: (view: ViewState) => void;
 }
 
-const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, currentView, onNavigate }) => {
+/**
+ * DashboardLayout component providing the main shell for the application's authenticated views.
+ */
+// Refactored from React.FC to standard function to resolve children type missing errors
+export default function DashboardLayout({ children, currentView, onNavigate }: DashboardLayoutProps) {
   const [isSidebarMobileOpen, setIsSidebarMobileOpen] = useState(false);
 
   return (
@@ -44,6 +48,4 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = ({ children, currentView
       )}
     </div>
   );
-};
-
-export default DashboardLayout;
+}

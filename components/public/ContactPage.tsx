@@ -2,8 +2,8 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { Mail, MessageCircle, MapPin, Clock, Send, Phone, CheckCircle2, Globe } from 'lucide-react';
 import { ViewState } from '../../types';
-// Fixed: Standardized casing for button.tsx import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx
+import Button from '../ui/Button.tsx';
 
 interface ContactPageProps {
   onNavigate: (view: ViewState) => void;

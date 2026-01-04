@@ -1,89 +1,59 @@
 "use client";
 
 import * as React from "react";
-import { Send, Image } from "lucide-react";
-// Standardized: Using lowercase button.tsx to resolve casing conflicts
-import Button from "../ui/button.tsx";
+import { Send, Sparkles } from "lucide-react";
+// Fixed: Standardized casing for Button.tsx import
+import Button from "../ui/Button.tsx";
 import { cn } from "../../lib/utils/cn.ts";
 
 interface ChatInputProps {
   onSend: (message: string) => void;
   isLoading?: boolean;
-  disabled?: boolean;
   placeholder?: string;
 }
 
-export function ChatInput({ onSend, isLoading, disabled, placeholder }: ChatInputProps) {
-  const [message, setMessage] = React.useState("");
-  const textareaRef = React.useRef<HTMLTextAreaElement>(null);
+/**
+ * ChatInput component for the builder interface.
+ */
+export const ChatInput: React.FC<ChatInputProps> = ({ onSend, isLoading, placeholder }) => {
+  const [input, setInput] = React.useState("");
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (message.trim() && !isLoading && !disabled) {
-      onSend(message.trim());
-      setMessage("");
-    }
+  const handleSend = () => {
+    if (!input.trim() || isLoading) return;
+    onSend(input);
+    setInput("");
   };
-
-  const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault();
-      handleSubmit(e);
-    }
-  };
-
-  // Auto-resize textarea
-  React.useEffect(() => {
-    if (textareaRef.current) {
-      textareaRef.current.style.height = "auto";
-      textareaRef.current.style.height = `${textareaRef.current.scrollHeight}px`;
-    }
-  }, [message]);
 
   return (
-    <form onSubmit={handleSubmit} className="border-t-3 border-black bg-white p-4">
-      <div className="flex items-end gap-3">
-        {/* Attachment Buttons */}
-        <div className="flex gap-2">
-          <button
-            type="button"
-            className="p-2 hover:bg-surface-secondary border-3 border-transparent hover:border-black transition-all rounded-lg"
-            title="إرفاق صورة"
-          >
-            <Image className="h-5 w-5 text-content-muted" />
-          </button>
-        </div>
-
-        {/* Input */}
-        <div className="flex-1 relative">
+    <div className="p-4 bg-white border-t-3 border-black">
+      <div className="relative group">
+        <div className="relative bg-white border-[3px] border-black rounded-xl flex items-end p-2 focus-within:shadow-brutal-sm transition-all">
           <textarea
-            ref={textareaRef}
-            value={message}
-            onChange={(e) => setMessage(e.target.value)}
-            onKeyDown={handleKeyDown}
-            placeholder={placeholder || "اكتب ما تريد بناءه..."}
-            disabled={disabled || isLoading}
-            rows={1}
-            className={cn(
-              "w-full border-3 border-black bg-white px-4 py-3 rounded-xl",
-              "focus:outline-none focus:border-brand-violet transition-all",
-              "resize-none overflow-hidden max-h-32",
-              "font-medium placeholder:text-content-muted"
-            )}
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" && !e.shiftKey) {
+                e.preventDefault();
+                handleSend();
+              }
+            }}
+            placeholder={placeholder || "اكتب ما تريد..."}
+            className="w-full bg-transparent border-none focus:ring-0 resize-none h-12 max-h-32 py-2 px-2 font-bold text-sm placeholder:text-slate-400"
+            dir="rtl"
+            disabled={isLoading}
           />
+          <Button
+            size="icon"
+            onClick={handleSend}
+            disabled={!input.trim() || isLoading}
+            className="shrink-0 mb-1 ml-1"
+          >
+            <Send className="h-4 w-4" />
+          </Button>
         </div>
-
-        {/* Send Button */}
-        <Button
-          type="submit"
-          size="icon"
-          variant="gradient"
-          disabled={!message.trim() || isLoading || disabled}
-          className="rounded-xl shrink-0"
-        >
-          <Send className="h-5 w-5" />
-        </Button>
       </div>
-    </form>
+    </div>
   );
-}
+};
+
+export default ChatInput;

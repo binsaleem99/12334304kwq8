@@ -4,8 +4,8 @@ import * as React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
 import { cn } from "../../lib/utils/cn.ts";
-// Fix: Standardized import casing to lowercase
-import Button from "./button.tsx";
+// Fixed: Standardized import casing for Button.tsx
+import Button from "./Button.tsx";
 
 interface ModalProps {
   isOpen: boolean;

@@ -5,21 +5,18 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Lock, Eye, EyeOff, ArrowLeft, CheckCircle } from "lucide-react";
-// Standardized: Using lowercase button.tsx to resolve casing conflicts
-import Button from "../../../components/ui/button.tsx";
+// Fixed: Standardized casing for Button.tsx import
+import Button from "../../../components/ui/Button.tsx";
 import Input from "../../../components/ui/input.tsx";
 import { AuthCard, PasswordStrength } from "../../../components/auth/index.ts";
+import { createClient } from "../../../lib/supabase/client.ts";
 
-/**
- * ResetPasswordPage component allowing users to set a new password after recovery.
- * Features validation for matching passwords and dynamic strength visualization.
- */
 export default function ResetPasswordPage() {
   const router = useRouter();
+  const supabase = createClient();
   const [isLoading, setIsLoading] = React.useState(false);
   const [isSuccess, setIsSuccess] = React.useState(false);
   const [showPassword, setShowPassword] = React.useState(false);
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
   const [formData, setFormData] = React.useState({
     password: "",
     confirmPassword: "",
@@ -30,39 +27,37 @@ export default function ResetPasswordPage() {
     e.preventDefault();
     setErrors({});
     
-    const newErrors: Record<string, string> = {};
-    if (!formData.password) {
-      newErrors.password = "كلمة المرور مطلوبة";
-    } else if (formData.password.length < 8) {
-      newErrors.password = "يجب أن تكون كلمة المرور 8 أحرف على الأقل";
-    }
-
     if (formData.password !== formData.confirmPassword) {
-      newErrors.confirmPassword = "كلمتا المرور غير متطابقتين";
+      setErrors({ confirmPassword: "كلمتا المرور غير متطابقتين" });
+      return;
     }
 
-    if (Object.keys(newErrors).length > 0) {
-      setErrors(newErrors);
+    if (formData.password.length < 12) {
+      setErrors({ password: "يجب أن تكون كلمة المرور 12 حرفاً على الأقل للأمان" });
       return;
     }
 
     setIsLoading(true);
 
-    // Simulate API call for password reset
-    console.log("Resetting password for account...");
-    await new Promise((resolve) => setTimeout(resolve, 2000));
+    const { error } = await supabase.auth.updateUser({
+      password: formData.password,
+    });
+
+    if (error) {
+      setErrors({ password: error.message });
+      setIsLoading(false);
+      return;
+    }
     
     setIsLoading(false);
     setIsSuccess(true);
   };
 
-  // Render success message after password reset
   if (isSuccess) {
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.5 }}
         className="w-full max-w-md mx-auto"
       >
         <AuthCard
@@ -78,11 +73,6 @@ export default function ResetPasswordPage() {
             >
               <CheckCircle className="h-12 w-12 text-black" strokeWidth={2.5} />
             </motion.div>
-            
-            <p className="text-content-secondary font-bold text-lg mb-8 leading-relaxed">
-              لقد قمت بتغيير كلمة المرور الخاصة بك بنجاح!
-            </p>
-
             <Link href="/login" className="block w-full">
               <Button variant="gradient" size="xl" fullWidth className="text-xl shadow-brutal">
                 تسجيل الدخول الآن
@@ -99,7 +89,6 @@ export default function ResetPasswordPage() {
     <motion.div
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5 }}
       className="w-full max-w-md mx-auto"
     >
       <AuthCard
@@ -107,7 +96,6 @@ export default function ResetPasswordPage() {
         description="يرجى إدخال كلمة مرور جديدة قوية لحسابك"
       >
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* New Password Field */}
           <div className="relative">
             <Input
               type={showPassword ? "text" : "password"}
@@ -125,44 +113,24 @@ export default function ResetPasswordPage() {
               onClick={() => setShowPassword(!showPassword)}
               className="absolute left-4 top-[42px] text-content-muted hover:text-content-primary transition-colors"
             >
-              {showPassword ? (
-                <EyeOff className="h-5 w-5" />
-              ) : (
-                <Eye className="h-5 w-5" />
-              )}
+              {showPassword ? <EyeOff className="h-5 w-5" /> : <Eye className="h-5 w-5" />}
             </button>
           </div>
 
-          {/* Real-time Strength Indicator */}
           <PasswordStrength password={formData.password} />
 
-          {/* Confirm Password Field */}
-          <div className="relative pt-2">
-            <Input
-              type={showConfirmPassword ? "text" : "password"}
-              label="تأكيد كلمة المرور"
-              placeholder="••••••••"
-              value={formData.confirmPassword}
-              onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
-              error={errors.confirmPassword}
-              leftIcon={<Lock className="h-5 w-5" />}
-              disabled={isLoading}
-              autoComplete="new-password"
-            />
-            <button
-              type="button"
-              onClick={() => setShowConfirmPassword(!showConfirmPassword)}
-              className="absolute left-4 top-[42px] text-content-muted hover:text-content-primary transition-colors"
-            >
-              {showConfirmPassword ? (
-                <EyeOff className="h-5 w-5" />
-              ) : (
-                <Eye className="h-5 w-5" />
-              )}
-            </button>
-          </div>
+          <Input
+            type="password"
+            label="تأكيد كلمة المرور"
+            placeholder="••••••••"
+            value={formData.confirmPassword}
+            onChange={(e) => setFormData({ ...formData, confirmPassword: e.target.value })}
+            error={errors.confirmPassword}
+            leftIcon={<Lock className="h-5 w-5" />}
+            disabled={isLoading}
+            autoComplete="new-password"
+          />
 
-          {/* Submit Action */}
           <Button
             type="submit"
             variant="gradient"
@@ -176,17 +144,6 @@ export default function ResetPasswordPage() {
           </Button>
         </form>
       </AuthCard>
-
-      {/* Navigation Redirect */}
-      <div className="text-center mt-8">
-        <Link
-          href="/login"
-          className="text-sm font-black text-content-muted hover:text-content-primary inline-flex items-center gap-2 transition-colors group"
-        >
-          <ArrowLeft className="h-4 w-4 rtl-flip rotate-180 transition-transform group-hover:-translate-x-1" />
-          العودة لتسجيل الدخول
-        </Link>
-      </div>
     </motion.div>
   );
 }

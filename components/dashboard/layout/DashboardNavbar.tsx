@@ -1,33 +1,58 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, ChevronDown, User, Settings, CreditCard, HelpCircle, LogOut, Bell, Menu } from 'lucide-react';
 import { ViewState } from '../../../types';
 import NotificationsDropdown from '../notifications/NotificationsDropdown';
+import { createClient } from '../../../lib/supabase/client.ts';
+import { useRouter } from 'next/navigation';
 
 interface DashboardNavbarProps {
   onNavigate: (view: ViewState) => void;
   onMobileMenuToggle?: () => void;
-  user?: { name: string; email: string; avatar?: string };
 }
 
 const DashboardNavbar: React.FC<DashboardNavbarProps> = ({ 
   onNavigate, 
-  onMobileMenuToggle,
-  user = { name: 'محمد أحمد', email: 'user@email.com' } 
+  onMobileMenuToggle
 }) => {
+  const router = useRouter();
+  const supabase = createClient();
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState(false);
+  const [userData, setUserData] = useState<{ name: string; email: string; tier: string; credits: number } | null>(null);
 
-  const tier = localStorage.getItem('kwq8_tier') || 'pro';
-  const isEnterprise = tier === 'enterprise';
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const { data: { user } } = await supabase.auth.getUser();
+      if (user) {
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('full_name, tier, credits')
+          .eq('id', user.id)
+          .single();
+
+        setUserData({
+          name: profile?.full_name || user.email?.split('@')[0] || 'User',
+          email: user.email || '',
+          tier: profile?.tier || 'free',
+          credits: profile?.credits || 0
+        });
+      }
+    };
+    fetchUserData();
+  }, []);
+
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    router.push("/");
+  };
+
+  const isEnterprise = userData?.tier === 'enterprise';
 
   return (
     <nav className="fixed top-0 left-0 right-0 z-50 bg-white border-b-[3px] border-black h-16">
       <div className="container mx-auto px-4 h-full flex items-center justify-between">
-        
-        {/* Right Side: Logo & Projects */}
         <div className="flex items-center gap-3 md:gap-6">
-            {/* Mobile Menu Trigger */}
             <button 
                 className="md:hidden p-2 border-2 border-black rounded-lg bg-slate-50 shadow-neo-sm active:shadow-none"
                 onClick={onMobileMenuToggle}
@@ -53,10 +78,11 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
             </button>
         </div>
 
-        {/* Left Side: Credits & User */}
         <div className="flex items-center gap-2 md:gap-4">
             <div className="flex items-center gap-2 bg-[#F5F5F5] px-2 md:px-3 py-1.5 rounded-lg border-[3px] border-black shadow-neo-sm">
-                <span className="text-[#7C3AED] font-black text-sm md:text-base">{isEnterprise ? '∞' : '150'}</span>
+                <span className="text-[#7C3AED] font-black text-sm md:text-base">
+                  {isEnterprise ? '∞' : (userData?.credits ?? 0)}
+                </span>
                 <span className="text-[10px] md:text-xs font-bold text-black">رصيد</span>
             </div>
 
@@ -78,9 +104,13 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
                     onClick={() => setIsUserMenuOpen(!isUserMenuOpen)}
                     className="flex items-center gap-2 hover:bg-slate-50 p-0.5 md:p-1 md:pr-3 rounded-lg border-[3px] border-transparent hover:border-black transition-all"
                 >
-                    <span className="font-bold text-sm hidden md:block text-black">{isEnterprise ? 'الرئيس التنفيذي' : user.name}</span>
+                    <span className="font-bold text-sm hidden md:block text-black">
+                      {isEnterprise ? 'الرئيس التنفيذي' : (userData?.name || 'تحميل...')}
+                    </span>
                     <div className={`w-8 h-8 rounded-full text-white flex items-center justify-center border-2 border-black shrink-0 ${isEnterprise ? 'bg-orange-500' : 'bg-black'}`}>
-                        <span className="font-black text-xs">{isEnterprise ? 'CEO' : 'MA'}</span>
+                        <span className="font-black text-xs">
+                          {isEnterprise ? 'CEO' : (userData?.name?.substring(0, 1).toUpperCase() || '?')}
+                        </span>
                     </div>
                     <ChevronDown size={14} className="text-black hidden sm:block" />
                 </button>
@@ -94,8 +124,10 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
                             className="absolute left-0 top-full mt-2 w-64 bg-white border-[3px] border-black rounded-xl shadow-neo-lg overflow-hidden z-50"
                         >
                             <div className="p-4 border-b-[3px] border-black bg-yellow-50">
-                                <div className="font-black text-black truncate">{isEnterprise ? 'الرئيس التنفيذي' : user.name}</div>
-                                <div className="text-xs font-bold text-slate-600 truncate">{user.email}</div>
+                                <div className="font-black text-black truncate">
+                                  {isEnterprise ? 'الرئيس التنفيذي' : (userData?.name)}
+                                </div>
+                                <div className="text-xs font-bold text-slate-600 truncate">{userData?.email}</div>
                             </div>
                             
                             <div className="p-2 space-y-1">
@@ -109,7 +141,7 @@ const DashboardNavbar: React.FC<DashboardNavbarProps> = ({
 
                             <div className="border-t-[3px] border-black p-2">
                                 <button 
-                                    onClick={() => onNavigate('landing')}
+                                    onClick={handleLogout}
                                     className="w-full flex items-center gap-3 px-3 py-2 rounded-lg font-bold text-red-600 hover:bg-red-50 transition-all text-right"
                                 >
                                     <LogOut size={18} /> تسجيل الخروج

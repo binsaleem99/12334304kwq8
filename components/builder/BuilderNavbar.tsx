@@ -1,8 +1,8 @@
 import React from 'react';
 import { ChevronRight, Download, Rocket, Share2, Menu } from 'lucide-react';
 import { ViewState } from '../../types';
-// Standardized casing for button import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized casing to match Button.tsx
+import Button from '../ui/Button.tsx';
 
 interface BuilderNavbarProps {
   onNavigate: (view: ViewState) => void;

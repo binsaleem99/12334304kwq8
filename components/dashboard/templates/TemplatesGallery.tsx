@@ -2,8 +2,8 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Filter, Star, Lock, Eye, ArrowRight, X, Smartphone, Monitor, Check } from 'lucide-react';
 import { ViewState } from '../../../types';
-// Standardized casing for button import
-import Button from '../../ui/button.tsx';
+// Fixed: Standardized casing for Button.tsx
+import Button from '../../ui/Button.tsx';
 import MockWebsite from '../../website/MockWebsite';
 
 interface Template {

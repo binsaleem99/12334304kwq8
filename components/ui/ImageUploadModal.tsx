@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { X, Upload, Image as ImageIcon, Sparkles, Search, Check } from 'lucide-react';
-// Standardized casing for button import
-import Button from './button.tsx';
+// Fixed: Standardized casing for Button.tsx
+import Button from './Button.tsx';
 
 interface ImageUploadModalProps {
   isOpen: boolean;

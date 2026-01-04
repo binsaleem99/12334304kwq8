@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { Mail, Lock, Eye, EyeOff, ArrowLeft } from 'lucide-react';
-// Standardized casing for button import
-import Button from '../ui/button.tsx';
+// Fixed: Standardized import casing for Button.tsx
+import Button from '../ui/Button.tsx';
 import Input from '../ui/input.tsx';
 import { 
   AuthCard, 
@@ -10,14 +10,17 @@ import {
   AuthDivider 
 } from './index.ts';
 import { ViewState } from '../../types.ts';
+import { createClient } from '../../lib/supabase/client.ts';
+import { useRouter } from 'next/navigation';
 
 interface LoginProps {
   onNavigate: (view: ViewState) => void;
 }
 
 const LoginForm: React.FC<LoginProps> = ({ onNavigate }) => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const router = useRouter();
+  const supabase = createClient();
+  const [formData, setFormData] = useState({ email: '', password: '' });
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -27,28 +30,32 @@ const LoginForm: React.FC<LoginProps> = ({ onNavigate }) => {
     setIsLoading(true);
     setErrors({});
 
-    // Simple validation
-    if (!email) {
-      setErrors(prev => ({ ...prev, email: "البريد الإلكتروني مطلوب" }));
+    const { error } = await supabase.auth.signInWithPassword({
+      email: formData.email,
+      password: formData.password,
+    });
+
+    if (error) {
+      setErrors({ auth: error.message });
       setIsLoading(false);
       return;
     }
 
-    // Standard authentication simulation
-    setTimeout(() => {
-      localStorage.setItem('kwq8_tier', 'pro');
-      onNavigate('dashboard');
-      setIsLoading(false);
-    }, 1500);
+    router.push("/dashboard");
   };
 
-  const handleGoogleLogin = () => {
+  const handleGoogleLogin = async () => {
     setIsLoading(true);
-    setTimeout(() => {
-      localStorage.setItem('kwq8_tier', 'pro');
-      onNavigate('dashboard');
+    const { error } = await supabase.auth.signInWithOAuth({ 
+      provider: 'google',
+      options: {
+        redirectTo: `${window.location.origin}/api/auth/callback`
+      }
+    });
+    if (error) {
+      setErrors({ auth: error.message });
       setIsLoading(false);
-    }, 1200);
+    }
   };
 
   return (
@@ -74,19 +81,23 @@ const LoginForm: React.FC<LoginProps> = ({ onNavigate }) => {
             </p>
           }
         >
-          {/* Google Authentication */}
           <GoogleAuthButton mode="login" isLoading={isLoading} onClick={handleGoogleLogin} />
 
           <AuthDivider />
 
-          {/* Traditional Login Form */}
+          {errors.auth && (
+            <p className="mb-4 text-sm text-red-500 font-bold text-center bg-red-50 p-2 border border-red-200 rounded-lg">
+              {errors.auth}
+            </p>
+          )}
+
           <form onSubmit={handleSubmit} className="space-y-6">
             <Input
               type="email"
               label="البريد الإلكتروني"
               placeholder="your@email.com"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={formData.email}
+              onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               error={errors.email}
               leftIcon={<Mail className="h-5 w-5" />}
               disabled={isLoading}
@@ -100,8 +111,8 @@ const LoginForm: React.FC<LoginProps> = ({ onNavigate }) => {
                 type={showPassword ? "text" : "password"}
                 label="كلمة المرور"
                 placeholder="••••••••"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
                 error={errors.password}
                 leftIcon={<Lock className="h-5 w-5" />}
                 disabled={isLoading}
@@ -149,7 +160,6 @@ const LoginForm: React.FC<LoginProps> = ({ onNavigate }) => {
           </form>
         </AuthCard>
 
-        {/* Back Navigation */}
         <div className="text-center mt-8">
           <button
             onClick={() => onNavigate('landing')}
