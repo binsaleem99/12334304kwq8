@@ -2,6 +2,7 @@
 
 import React, { useState } from 'react';
 import { motion, useScroll, useMotionValueEvent, AnimatePresence } from 'framer-motion';
+/* Fixed: Standardized import casing to lowercase to resolve conflict with Button.tsx facade */
 import Button from '../ui/button.tsx';
 import { NAV_ITEMS } from '../../constants/navigation.ts';
 import { Menu, X, User } from 'lucide-react';
