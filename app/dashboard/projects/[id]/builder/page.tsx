@@ -11,8 +11,8 @@ import {
 // Fix: Standardized import casing to lowercase
 import Button from "../../../../../components/ui/button.tsx";
 import Badge from "../../../../../components/ui/badge.tsx";
-// Standardized casing for GradientText import
-import { GradientText } from "../../../../../components/ui/GradientText.tsx";
+/* Fixed: Standardized casing for GradientText import to use lowercase facade */
+import { GradientText } from "../../../../../components/ui/gradient-text.tsx";
 import { ChatMessage, ChatInput, PreviewFrame } from "../../../../../components/builder/index.ts";
 import { cn } from "../../../../../lib/utils/cn.ts";
 

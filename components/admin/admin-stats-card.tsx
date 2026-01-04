@@ -25,7 +25,7 @@ const colorClasses = {
 
 /**
  * AdminStatsCard component for displaying key performance indicators in the admin dashboard.
- * Fixed: Converted to React.FC to resolve JSX prop type issues with reserved props like 'key'.
+ * Fixed: Explicitly typed as React.FC to resolve JSX prop type issues in mapped loops.
  */
 export const AdminStatsCard: React.FC<AdminStatsCardProps> = ({ 
   title, 

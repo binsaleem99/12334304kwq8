@@ -6,7 +6,7 @@ import {
   Plus, Search, UserPlus, Percent, DollarSign,
   Users, Copy, Check, MoreVertical
 } from "lucide-react";
-// Fix: Standardized import casing to lowercase
+/* Fixed: Standardized import casing to lowercase */
 import Button from "../../../components/ui/button.tsx";
 import { Badge } from "../../../components/ui/badge.tsx";
 import { AdminPageHeader, AdminStatsCard, AdminTable } from "../../../components/admin/index.ts";
@@ -145,7 +145,7 @@ export default function AffiliatesPage() {
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
-        {/* Fixed: Use explicit mapping to ensure key is not part of the props object in certain strict TS environments */}
+        {/* Fixed: Use explicit mapping to ensure key is not part of the props object and handle casing consistency */}
         {stats.map((stat, index) => (
           <AdminStatsCard 
             key={index}

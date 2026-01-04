@@ -3,8 +3,8 @@
 import * as React from "react";
 import { Send, Image } from "lucide-react";
 // Standardized: Using lowercase button.tsx to resolve casing conflicts
-import Button from "@/components/ui/button.tsx";
-import { cn } from "@/lib/utils/cn.ts";
+import Button from "../ui/button.tsx";
+import { cn } from "../../lib/utils/cn.ts";
 
 interface ChatInputProps {
   onSend: (message: string) => void;
@@ -65,4 +65,25 @@ export function ChatInput({ onSend, isLoading, disabled, placeholder }: ChatInpu
             disabled={disabled || isLoading}
             rows={1}
             className={cn(
-              "w-full border
+              "w-full border-3 border-black bg-white px-4 py-3 rounded-xl",
+              "focus:outline-none focus:border-brand-violet transition-all",
+              "resize-none overflow-hidden max-h-32",
+              "font-medium placeholder:text-content-muted"
+            )}
+          />
+        </div>
+
+        {/* Send Button */}
+        <Button
+          type="submit"
+          size="icon"
+          variant="gradient"
+          disabled={!message.trim() || isLoading || disabled}
+          className="rounded-xl shrink-0"
+        >
+          <Send className="h-5 w-5" />
+        </Button>
+      </div>
+    </form>
+  );
+}

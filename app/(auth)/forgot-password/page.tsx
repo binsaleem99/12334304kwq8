@@ -5,9 +5,9 @@ import Link from "next/link";
 import { motion } from "framer-motion";
 import { Mail, ArrowLeft, CheckCircle } from "lucide-react";
 // Standardized: Using lowercase button.tsx to resolve casing conflicts
-import Button from "@/components/ui/button.tsx";
-import Input from "@/components/ui/input.tsx";
-import { AuthCard } from "@/components/auth/index.ts";
+import Button from "../../../components/ui/button.tsx";
+import Input from "../../../components/ui/input.tsx";
+import { AuthCard } from "../../../components/auth/index.ts";
 
 /**
  * ForgotPasswordPage component providing password recovery functionality.

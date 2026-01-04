@@ -6,9 +6,9 @@ import { useRouter } from "next/navigation";
 import { motion } from "framer-motion";
 import { Lock, Eye, EyeOff, ArrowLeft, CheckCircle } from "lucide-react";
 // Standardized: Using lowercase button.tsx to resolve casing conflicts
-import Button from "@/components/ui/button.tsx";
-import Input from "@/components/ui/input.tsx";
-import { AuthCard, PasswordStrength } from "@/components/auth/index.ts";
+import Button from "../../../components/ui/button.tsx";
+import Input from "../../../components/ui/input.tsx";
+import { AuthCard, PasswordStrength } from "../../../components/auth/index.ts";
 
 /**
  * ResetPasswordPage component allowing users to set a new password after recovery.

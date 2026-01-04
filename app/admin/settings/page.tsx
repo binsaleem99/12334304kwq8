@@ -1,4 +1,3 @@
-
 "use client";
 
 import * as React from "react";
@@ -7,7 +6,7 @@ import {
   Key, Clock, UserPlus, Lock, Check, AlertTriangle
 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
-// Fix: Added missing Badge import and standardized casing to lowercase source files
+/* Fixed: Added missing Badge import and standardized casing to lowercase source files */
 import Button from "../../../components/ui/button.tsx";
 import Input from "../../../components/ui/input.tsx";
 import Badge from "../../../components/ui/badge.tsx";

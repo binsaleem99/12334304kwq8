@@ -5,5 +5,5 @@ export { default as Pricing } from "./Pricing.tsx";
 export { default as SocialProof } from "./SocialProof.tsx";
 export { default as PromptHub } from "./PromptHub.tsx";
 export { default as FinalCTA } from "./FinalCTA.tsx";
-/* Standardized to PascalCase to resolve casing conflicts with root files */
-export { default as Navbar } from "./Navbar.tsx";
+/* Fixed: Standardized to lowercase facade to resolve casing conflicts with root files */
+export { default as Navbar } from "./navbar.tsx";

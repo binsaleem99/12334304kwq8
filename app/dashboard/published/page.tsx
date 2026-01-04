@@ -6,9 +6,9 @@ import {
   Globe, ExternalLink, Settings, BarChart3, 
   Eye, Edit, Clock, MoreVertical, Plus
 } from "lucide-react";
-import { Button, Badge } from "@/components/ui/index.ts";
-import { PageHeader, EmptyState } from "@/components/dashboard/index.ts";
-import { ViewState } from "@/types.ts";
+import { Button, Badge } from "../../../components/ui/index.ts";
+import { PageHeader, EmptyState } from "../../../components/dashboard/index.ts";
+import { ViewState } from "../../../types.ts";
 
 interface PublishedSitesPageProps {
   onNavigate: (view: ViewState) => void;

@@ -3,7 +3,7 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { User, Bot, Loader2 } from "lucide-react";
-import { cn } from "@/lib/utils/cn.ts";
+import { cn } from "../../lib/utils/cn.ts";
 
 export interface ChatMessageProps {
   role: "user" | "assistant";

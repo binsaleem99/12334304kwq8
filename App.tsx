@@ -1,14 +1,14 @@
 import React, { useState, useEffect } from 'react';
-/* Fixed: Standardized imports to use PascalCase facades to resolve casing conflicts */
-import Navbar from './components/landing/Navbar.tsx';
+/* Fixed: Standardized imports to use lowercase facades to resolve casing conflicts */
+import Navbar from './components/landing/navbar.tsx';
 import Hero from './components/landing/Hero.tsx';
 import PromptHub from './components/landing/PromptHub.tsx';
 import Features from './components/landing/Features.tsx';
 import Pricing from './components/landing/Pricing.tsx';
 import SocialProof from './components/landing/SocialProof.tsx';
 import FinalCTA from './components/landing/FinalCTA.tsx';
-/* Fixed: Standardized imports to use PascalCase facades to resolve casing conflicts */
-import Footer from './components/layout/Footer.tsx';
+/* Fixed: Standardized imports to use lowercase facades to resolve casing conflicts */
+import Footer from './components/layout/footer.tsx';
 import LoginForm from './components/auth/LoginForm.tsx';
 import SignupForm from './components/auth/SignupForm.tsx';
 import ForgotPasswordForm from './components/auth/ForgotPasswordForm.tsx';
